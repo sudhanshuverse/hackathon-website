@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HackNova 2025 – Build The Future</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#7C3AED;--primary-light:#A78BFA;--primary-dark:#4C1D95;
+  --accent:#F43F5E;--accent2:#06B6D4;--accent3:#FBBF24;
+  --bg:#08080F;--bg2:#0F0F1A;--bg3:#171724;--bg4:#1E1E30;
+  --glass:rgba(255,255,255,0.04);--glass2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08);--border2:rgba(124,58,237,0.4);
+  --text:#F0EEFF;--text2:#9D8EC8;--text3:#5C5480;
+  --success:#10B981;--warning:#F59E0B;--error:#EF4444;
+  --r:12px;--r2:20px;--r3:32px;
+  --font-head:'Bricolage Grotesque',sans-serif;--font-body:'Outfit',sans-serif;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:var(--font-body)}
+input,textarea,select{font-family:var(--font-body)}
+h1,h2,h3,h4,h5{font-family:var(--font-head)}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px}
+#root{min-height:100vh}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+@keyframes float2{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(3deg)}}
+@keyframes spinSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(124,58,237,0.3)}50%{box-shadow:0 0 50px rgba(124,58,237,0.7)}}
+@keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes countPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes orb{0%,100%{transform:scale(1) translate(0,0)}33%{transform:scale(1.05) translate(20px,-15px)}66%{transform:scale(0.97) translate(-10px,20px)}}
+@keyframes borderGlow{0%,100%{border-color:rgba(124,58,237,0.3)}50%{border-color:rgba(124,58,237,0.8)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes gridFade{from{opacity:0;transform:scale(0.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes typewriter{from{width:0}to{width:100%}}
+@keyframes blink{50%{opacity:0}}
+@keyframes ripple{from{transform:scale(0);opacity:1}to{transform:scale(4);opacity:0}}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+.animate-fadeUp{animation:fadeUp .6s ease forwards}
+.animate-float{animation:float 4s ease-in-out infinite}
+.animate-float2{animation:float2 5s ease-in-out infinite}
+.animate-glow{animation:glow 3s ease-in-out infinite}
+.animate-pulse{animation:pulse 2s ease-in-out infinite}
+.animate-spin-slow{animation:spinSlow 20s linear infinite}
+.animate-orb{animation:orb 8s ease-in-out infinite}
+.animate-gradient{background-size:300% 300%;animation:gradientShift 5s ease infinite}
+
+/* GLASS */
+.glass{background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(12px)}
+.glass2{background:var(--glass2);border:1px solid var(--border2);backdrop-filter:blur(12px)}
+.card-hover{transition:all .3s ease}
+.card-hover:hover{transform:translateY(-4px);border-color:var(--primary);box-shadow:0 8px 40px rgba(124,58,237,0.2)}
+
+/* GRADIENT TEXT */
+.grad{background:linear-gradient(135deg,#C084FC,#818CF8,#22D3EE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad2{background:linear-gradient(135deg,#F43F5E,#FBBF24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad3{background:linear-gradient(135deg,#10B981,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:var(--r);font-size:14px;font-weight:600;border:none;transition:all .25s;white-space:nowrap;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:white;opacity:0;transition:opacity .2s}
+.btn:hover::after{opacity:0.06}
+.btn-primary{background:linear-gradient(135deg,var(--primary),#9F67FF);color:#fff;box-shadow:0 4px 24px rgba(124,58,237,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(124,58,237,0.55)}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid rgba(255,255,255,0.12)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary-light)}
+.btn-ghost{background:transparent;color:var(--text2);border:none;padding:10px 16px}
+.btn-ghost:hover{color:var(--text);background:var(--glass)}
+.btn-accent{background:linear-gradient(135deg,#F43F5E,#FB7185);color:#fff;box-shadow:0 4px 20px rgba(244,63,94,0.3)}
+.btn-sm{padding:9px 18px;font-size:13px}
+.btn-xs{padding:6px 12px;font-size:12px}
+.btn-danger{background:rgba(239,68,68,0.12);color:#EF4444;border:1px solid rgba(239,68,68,0.25)}
+.btn-danger:hover{background:rgba(239,68,68,0.2)}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.3);border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary-light)}
+.tag{padding:3px 10px;background:rgba(124,58,237,0.12);border-radius:999px;font-size:11px;font-weight:600;color:var(--primary-light)}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase}
+.chip-blue{background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);color:#06B6D4}
+.chip-green{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);color:#10B981}
+.chip-orange{background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);color:#F59E0B}
+.chip-red{background:rgba(244,63,94,0.12);border:1px solid rgba(244,63,94,0.25);color:#F43F5E}
+
+/* FORM */
+.input{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;color:var(--text);font-size:14px;outline:none;transition:border-color .2s;width:100%}
+.input:focus{border-color:var(--primary)}
+.input.err{border-color:var(--error)}
+.input::placeholder{color:var(--text3)}
+.input option{background:var(--bg2)}
+.label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;display:block}
+.form-err{font-size:12px;color:var(--error);margin-top:4px}
+
+/* NOTIF */
+.notif{padding:14px 18px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:flex-start;gap:12px;animation:slideIn .3s ease;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.notif-success{border-left:3px solid var(--success)}
+.notif-error{border-left:3px solid var(--error)}
+.notif-info{border-left:3px solid var(--primary)}
+.notif-warning{border-left:3px solid var(--warning)}
+
+/* HERO GRID BG */
+.grid-bg{background-image:linear-gradient(rgba(124,58,237,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,0.07) 1px,transparent 1px);background-size:50px 50px}
+
+/* TRACK CARD */
+.track-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:28px;transition:all .3s;position:relative;overflow:hidden;cursor:pointer}
+.track-card:hover{border-color:var(--primary);transform:translateY(-6px);box-shadow:0 20px 60px rgba(124,58,237,0.2)}
+.track-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,58,237,0.05),transparent);opacity:0;transition:opacity .3s}
+.track-card:hover::before{opacity:1}
+
+/* PRIZE */
+.prize-card{border-radius:var(--r2);padding:32px;text-align:center;border:1px solid var(--border);transition:all .35s;position:relative;overflow:hidden}
+.prize-card:hover{transform:translateY(-8px)}
+.prize-1st{background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(245,158,11,0.04));border-color:rgba(251,191,36,0.25);animation:borderGlow 3s ease-in-out infinite}
+.prize-2nd{background:linear-gradient(135deg,rgba(148,163,184,0.06),rgba(100,116,139,0.03));border-color:rgba(148,163,184,0.2)}
+.prize-3rd{background:linear-gradient(135deg,rgba(251,146,60,0.08),rgba(234,88,12,0.04));border-color:rgba(251,146,60,0.2)}
+
+/* TIMELINE */
+.tl-line{position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--primary),var(--accent2),transparent)}
+.tl-dot{position:absolute;left:-49px;top:4px;width:20px;height:20px;border-radius:50%;border:3px solid var(--bg);box-shadow:0 0 0 3px currentColor}
+
+/* FAQ */
+.faq-item{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
+.faq-item.open{border-color:var(--primary)}
+
+/* SCROLL */
+.section-fade{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.section-fade.visible{opacity:1;transform:translateY(0)}
+
+/* MARQUEE */
+.marquee-track{display:flex;gap:40px;animation:marquee 25s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+
+/* NOISE OVERLAY */
+.noise::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;animation:fadeIn .2s ease}
+.modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:36px;width:100%;max-width:420px;position:relative;animation:fadeUp .3s ease;max-height:90vh;overflow-y:auto}
+.modal-box::-webkit-scrollbar{width:4px}
+
+/* SPONSOR LOGO */
+.sponsor-logo{padding:16px 28px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);font-family:var(--font-head);font-weight:700;font-size:18px;color:var(--text3);transition:all .3s;white-space:nowrap}
+.sponsor-logo:hover{color:var(--text);border-color:var(--primary);background:rgba(124,58,237,0.08)}
+
+/* MENTOR CARD */
+.mentor-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:24px;text-align:center;transition:all .3s}
+.mentor-card:hover{border-color:var(--primary);transform:translateY(-4px);box-shadow:0 16px 40px rgba(124,58,237,0.15)}
+.mentor-avatar{width:80px;height:80px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:32px;font-family:var(--font-head);font-weight:800;border:2px solid var(--border2)}
+
+/* DASHBOARD */
+.dash-nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--r);font-size:14px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;background:none;border:none;width:100%;text-align:left}
+.dash-nav-item:hover{background:var(--glass2);color:var(--text)}
+.dash-nav-item.active{background:rgba(124,58,237,0.15);color:var(--primary-light)}
+.dash-panel{animation:fadeUp .3s ease}
+
+/* STAT NUM */
+.stat-num{font-family:var(--font-head);font-size:48px;font-weight:800;line-height:1}
+
+/* PROGRESS BAR */
+.progress-bar{height:6px;border-radius:999px;background:var(--bg3);overflow:hidden}
+.progress-fill{height:100%;border-radius:999px;transition:width 1.5s ease}
+
+/* SCHEDULE */
+.schedule-item{display:flex;gap:16px;padding:14px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);transition:all .2s}
+.schedule-item:hover{border-color:var(--primary);background:var(--glass2)}
+
+/* LEADERBOARD */
+.lb-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);transition:all .2s}
+.lb-row:hover{border-color:var(--primary);transform:translateX(4px)}
+.lb-1{border-left:3px solid #FBBF24;background:rgba(251,191,36,0.05)}
+.lb-2{border-left:3px solid #94A3B8;background:rgba(148,163,184,0.05)}
+.lb-3{border-left:3px solid #FB923C;background:rgba(251,146,60,0.05)}
+
+/* RESPONSIVE NAV */
+@media(max-width:768px){
+  .desktop-nav{display:none}
+  .mobile-nav-btn{display:flex!important}
+}
+@media(min-width:769px){
+  .mobile-nav-btn{display:none!important}
+}
+</style>
+</head>
+<body class="noise">
+<div id="root"></div>
+
+<script type="text/babel">
+const {useState,useEffect,useRef,useCallback,useMemo} = React;
+
+// ─── GLOBAL STATE ─────────────────────────────────────────
+const useStore = () => {
+  const [user,setUser] = useState(()=>JSON.parse(localStorage.getItem('hn_user')||'null'));
+  const [registrations,setRegistrations] = useState(()=>JSON.parse(localStorage.getItem('hn_regs')||'[]'));
+  const [wishlist,setWishlist] = useState(()=>JSON.parse(localStorage.getItem('hn_wishlist')||'[]'));
+  const [teams,setTeams] = useState(()=>JSON.parse(localStorage.getItem('hn_teams')||'[]'));
+  const [profile,setProfile] = useState(()=>JSON.parse(localStorage.getItem('hn_profile')||'null'));
+
+  const saveUser = u => { setUser(u); localStorage.setItem('hn_user',JSON.stringify(u)); };
+  const saveRegs = r => { setRegistrations(r); localStorage.setItem('hn_regs',JSON.stringify(r)); };
+  const saveWishlist = w => { setWishlist(w); localStorage.setItem('hn_wishlist',JSON.stringify(w)); };
+  const saveTeams = t => { setTeams(t); localStorage.setItem('hn_teams',JSON.stringify(t)); };
+  const saveProfile = p => { setProfile(p); localStorage.setItem('hn_profile',JSON.stringify(p)); };
+
+  return {user,setUser:saveUser,registrations,setRegistrations:saveRegs,wishlist,setWishlist:saveWishlist,teams,setTeams:saveTeams,profile,setProfile:saveProfile};
+};
+
+// ─── DATA ─────────────────────────────────────────────────
+const TRACKS = [
+  {id:'ai',name:'Artificial Intelligence',icon:'🤖',color:'rgba(124,58,237,0.15)',border:'rgba(124,58,237,0.4)',desc:'Machine learning, NLP, computer vision & AI-powered apps that solve real problems.',cat:'tech',tags:['ML','NLP','Vision']},
+  {id:'web3',name:'Web3 & Blockchain',icon:'⛓️',color:'rgba(251,191,36,0.1)',border:'rgba(251,191,36,0.3)',desc:'DeFi, dApps, smart contracts, NFTs & the future of digital ownership.',cat:'tech',tags:['DeFi','NFT','dApps']},
+  {id:'health',name:'HealthTech',icon:'🏥',color:'rgba(16,185,129,0.1)',border:'rgba(16,185,129,0.3)',desc:'Digital health, telemedicine, medical AI, wearables & innovations that save lives.',cat:'health',tags:['MedAI','IoT','Telemedicine']},
+  {id:'green',name:'GreenTech & Climate',icon:'🌱',color:'rgba(34,197,94,0.1)',border:'rgba(34,197,94,0.3)',desc:'Sustainability, clean energy, carbon tracking, smart farming & climate solutions.',cat:'society',tags:['CleanEnergy','Carbon','AgriTech']},
+  {id:'fintech',name:'FinTech',icon:'💸',color:'rgba(6,182,212,0.1)',border:'rgba(6,182,212,0.3)',desc:'Digital payments, lending, insurance, personal finance & next-gen banking.',cat:'finance',tags:['Payments','InsurTech','BNPL']},
+  {id:'social',name:'Social Impact',icon:'🌍',color:'rgba(244,63,94,0.1)',border:'rgba(244,63,94,0.3)',desc:'Education, accessibility, civic tech, rural development & tech for good.',cat:'society',tags:['EduTech','Civic','Accessibility']}
+];
+
+const TIMELINE = [
+  {date:'Jun 1, 2025',title:'Registrations Open 🎉',desc:'The portal goes live. Early birds get priority swag & exclusive workshop access.',color:'#7C3AED',status:'open'},
+  {date:'Jun 15, 2025',title:'Team Formation Deadline',desc:'Solo hackers get matched. Build your dream squad before this date.',color:'#06B6D4',status:'open'},
+  {date:'Jul 1, 2025',title:'Registration Closes 🔒',desc:'Final date. Only 200 spots remaining! No new participants after this.',color:'#F59E0B',status:'upcoming'},
+  {date:'Jul 10–12, 2025',title:'Pre-Event Workshop Series',desc:'Three days of AI, Web3, and Product Design workshops by industry experts.',color:'#F43F5E',status:'upcoming'},
+  {date:'Jul 18, 2025',title:'Hackathon Kickoff 🚀',desc:'48 hours begin! Opening ceremony at KTPO Bengaluru. Keynotes & the adrenaline start.',color:'#10B981',status:'upcoming'},
+  {date:'Jul 19, 2025',title:'Midpoint Check-In',desc:'Mentor sessions, demos & technical office hours. Get expert feedback.',color:'#A78BFA',status:'upcoming'},
+  {date:'Jul 20, 9AM',title:'Submission Deadline ⏳',desc:'All projects must be submitted. Include demo video, GitHub repo & summary.',color:'#F43F5E',status:'upcoming'},
+  {date:'Jul 20, 3PM',title:'Demo Day & Results 🏆',desc:'Final presentations to 20 judges. Winners announced at 6 PM. Grand ceremony!',color:'#FBBF24',status:'upcoming'}
+];
+
+const FAQS = [
+  {q:'Who can participate in HackNova 2025?',a:'Open to everyone — students, professionals, freelancers, indie devs. All skill levels welcome. Just bring your passion for building.'},
+  {q:'Is there a registration fee?',a:'Completely FREE! We cover meals, beverages, swag kits, and ₹5000 cloud credits. Our sponsors make it possible.'},
+  {q:'Can I participate solo?',a:'Yes! Solo participants are matched into teams of 2–5 during Team Builder sessions before July 15.'},
+  {q:'What are the judging criteria?',a:'Innovation & Creativity (25%), Technical Complexity (25%), Real-World Impact (25%), Demo Quality (15%), Design/UX (10%).'},
+  {q:'Can I start building before the hackathon?',a:'No pre-existing code. All projects must be built during the 48-hour window. Open-source libraries and public APIs are allowed.'},
+  {q:'Are there technology restrictions?',a:'None! Use any language, framework, or cloud. We provide AWS, GCP, and Azure credits to all teams.'},
+  {q:'Can I participate fully online?',a:'Absolutely! HackNova is hybrid. Online participants get full mentor access, workshops, and submission tools.'},
+  {q:'How do I find teammates?',a:'Use our Team Builder in the Dashboard. Post skills, browse open teams, connect with hackers who complement you.'},
+  {q:'Will there be food and accommodation?',a:'All meals & snacks for on-site participants. Rest areas & sleeping zones available. Hotel partnerships nearby for accommodation.'},
+  {q:'When are winners announced?',a:'Demo Day, July 20 at 6:00 PM IST. Results published live on our website and social media instantly.'}
+];
+
+const MENTORS = [
+  {name:'Priya Sharma',role:'ML Engineer @ Google',avatar:'PS',color:'from-purple-600 to-indigo-600',expertise:'AI/ML'},
+  {name:'Arjun Mehta',role:'Blockchain Lead @ Polygon',avatar:'AM',color:'from-yellow-500 to-orange-500',expertise:'Web3'},
+  {name:'Dr. Neha Gupta',role:'CTO @ HealthBridge',avatar:'NG',color:'from-emerald-500 to-teal-500',expertise:'HealthTech'},
+  {name:'Rohan Verma',role:'Founder @ GreenGrid',avatar:'RV',color:'from-green-500 to-emerald-500',expertise:'CleanTech'},
+  {name:'Sanya Kapoor',role:'VP Product @ Razorpay',avatar:'SK',color:'from-cyan-500 to-blue-500',expertise:'FinTech'},
+  {name:'Dev Anand',role:'SWE III @ Microsoft',avatar:'DA',color:'from-rose-500 to-pink-500',expertise:'Cloud'},
+];
+
+const SPONSORS = ['Google','Microsoft','AWS','Razorpay','Polygon','Flipkart','Zomato','CRED','PhonePe','Ola'];
+
+const LEADERBOARD = [
+  {rank:1,team:'NeuralNomads',score:9840,track:'AI',members:4},
+  {rank:2,team:'ByteBenders',score:9620,track:'Web3',members:5},
+  {rank:3,team:'GreenGrid',score:9450,track:'GreenTech',members:3},
+  {rank:4,team:'HealthHackers',score:9200,track:'HealthTech',members:4},
+  {rank:5,team:'FinForce',score:8990,track:'FinTech',members:5},
+  {rank:6,team:'ImpactX',score:8760,track:'Social',members:4},
+  {rank:7,team:'ChainBreakers',score:8540,track:'Web3',members:5},
+  {rank:8,team:'MedMinds',score:8310,track:'HealthTech',members:3},
+];
+
+const SCHEDULE = [
+  {time:'Jul 18, 9:00 AM',event:'Opening Ceremony & Keynotes',venue:'Main Auditorium',type:'ceremony'},
+  {time:'Jul 18, 11:00 AM',event:'Hacking Begins! 🚀',venue:'All Zones',type:'hack'},
+  {time:'Jul 18, 2:00 PM',event:'Workshop: Building with LLMs',venue:'Hall A',type:'workshop'},
+  {time:'Jul 18, 5:00 PM',event:'Mentor Office Hours Round 1',venue:'Mentor Zone',type:'mentor'},
+  {time:'Jul 18, 9:00 PM',event:'Networking Dinner',venue:'Cafeteria',type:'social'},
+  {time:'Jul 19, 10:00 AM',event:'Workshop: Web3 Smart Contracts',venue:'Hall B',type:'workshop'},
+  {time:'Jul 19, 2:00 PM',event:'Mid-Hack Check-In & Demos',venue:'Showcase Area',type:'demo'},
+  {time:'Jul 19, 6:00 PM',event:'Mentor Office Hours Round 2',venue:'Mentor Zone',type:'mentor'},
+  {time:'Jul 19, 11:00 PM',event:'Late Night Pizza & Music 🎸',venue:'Lounge',type:'social'},
+  {time:'Jul 20, 9:00 AM',event:'⏰ Hacking Ends – Submissions Due',venue:'Online Portal',type:'deadline'},
+  {time:'Jul 20, 11:00 AM',event:'Judging Begins',venue:'Demo Floor',type:'ceremony'},
+  {time:'Jul 20, 3:00 PM',event:'Final Presentations (Top 12)',venue:'Main Stage',type:'demo'},
+  {time:'Jul 20, 6:00 PM',event:'🏆 Award Ceremony & Closing',venue:'Main Auditorium',type:'ceremony'},
+];
+
+// ─── NOTIFICATIONS ────────────────────────────────────────
+const NotifContext = React.createContext(null);
+const NotifProvider = ({children}) => {
+  const [notifs,setNotifs] = useState([]);
+  let nId = useRef(0);
+  const show = (msg,type='info') => {
+    const id = ++nId.current;
+    setNotifs(prev=>[...prev,{id,msg,type}]);
+    setTimeout(()=>setNotifs(prev=>prev.filter(n=>n.id!==id)),5000);
+  };
+  const dismiss = id => setNotifs(prev=>prev.filter(n=>n.id!==id));
+  return (
+    <NotifContext.Provider value={show}>
+      {children}
+      <div style={{position:'fixed',top:'80px',right:'20px',zIndex:3000,display:'flex',flexDirection:'column',gap:'10px',maxWidth:'340px'}}>
+        {notifs.map(n=>(
+          <div key={n.id} className={`notif notif-${n.type}`}>
+            <div style={{flex:1}}>
+              <div style={{fontSize:'10px',fontWeight:800,textTransform:'uppercase',letterSpacing:'.06em',color:n.type==='success'?'#10B981':n.type==='error'?'#EF4444':n.type==='warning'?'#F59E0B':'#A78BFA',marginBottom:3}}>{n.type}</div>
+              <div style={{fontSize:'13px',fontWeight:500}}>{n.msg}</div>
+            </div>
+            <button onClick={()=>dismiss(n.id)} style={{background:'none',border:'none',color:'var(--text3)',fontSize:16,cursor:'pointer',padding:'0 0 0 8px',flexShrink:0}}>✕</button>
+          </div>
+        ))}
+      </div>
+    </NotifContext.Provider>
+  );
+};
+const useNotif = () => React.useContext(NotifContext);
+
+// ─── PARTICLE CANVAS ──────────────────────────────────────
+const Particles = () => {
+  const ref = useRef();
+  useEffect(()=>{
+    const c = ref.current;
+    if(!c) return;
+    const ctx = c.getContext('2d');
+    let pts = [], W, H, raf;
+    const init = () => {
+      W = c.width = c.offsetWidth; H = c.height = c.offsetHeight;
+      pts = Array.from({length:70},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.5+.5}));
+    };
+    init();
+    window.addEventListener('resize',init);
+    const draw = () => {
+      ctx.clearRect(0,0,W,H);
+      pts.forEach(p=>{
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>W) p.vx*=-1;
+        if(p.y<0||p.y>H) p.vy*=-1;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle='rgba(167,139,250,0.5)'; ctx.fill();
+      });
+      pts.forEach((a,i)=>pts.slice(i+1).forEach(b=>{
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        if(d<110){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(124,58,237,${.12*(1-d/110)})`;ctx.lineWidth=.6;ctx.stroke();}
+      }));
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+    return ()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',init);};
+  },[]);
+  return <canvas ref={ref} style={{position:'absolute',inset:0,width:'100%',height:'100%',zIndex:0}}/>;
+};
+
+// ─── COUNTDOWN ────────────────────────────────────────────
+const Countdown = () => {
+  const [time,setTime] = useState({d:'--',h:'--',m:'--',s:'--'});
+  useEffect(()=>{
+    const target = new Date('2025-07-18T09:00:00+05:30').getTime();
+    const tick = () => {
+      const diff = target - Date.now();
+      if(diff<=0){setTime({d:'00',h:'00',m:'00',s:'00'});return;}
+      setTime({
+        d:String(Math.floor(diff/86400000)).padStart(2,'0'),
+        h:String(Math.floor(diff%86400000/3600000)).padStart(2,'0'),
+        m:String(Math.floor(diff%3600000/60000)).padStart(2,'0'),
+        s:String(Math.floor(diff%60000/1000)).padStart(2,'0')
+      });
+    };
+    tick(); const id=setInterval(tick,1000); return ()=>clearInterval(id);
+  },[]);
+  const Unit = ({val,lab}) => (
+    <div style={{background:'rgba(255,255,255,0.05)',borderRadius:'12px',padding:'16px 8px',textAlign:'center',flex:1}}>
+      <div style={{fontFamily:'var(--font-head)',fontSize:'clamp(28px,4vw,40px)',fontWeight:800,color:'var(--primary-light)',lineHeight:1}}>{val}</div>
+      <div style={{fontSize:'10px',color:'var(--text3)',fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',marginTop:6}}>{lab}</div>
+    </div>
+  );
+  return (
+    <div className="glass animate-glow" style={{borderRadius:'var(--r2)',padding:'28px',textAlign:'center'}}>
+      <div style={{fontSize:'11px',fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--text3)',marginBottom:20}}>⏱ Event Starts In</div>
+      <div style={{display:'flex',gap:'10px'}}><Unit val={time.d} lab="Days"/><Unit val={time.h} lab="Hours"/><Unit val={time.m} lab="Mins"/><Unit val={time.s} lab="Secs"/></div>
+    </div>
+  );
+};
+
+// ─── SECTION FADE ─────────────────────────────────────────
+const useFadeIn = () => {
+  const ref = useRef();
+  useEffect(()=>{
+    const obs = new IntersectionObserver(([e])=>{if(e.isIntersecting){e.target.classList.add('visible');}},{threshold:.1});
+    if(ref.current) obs.observe(ref.current);
+    return ()=>obs.disconnect();
+  },[]);
+  return ref;
+};
+
+// ─── ANIMATED COUNTER ─────────────────────────────────────
+const Counter = ({target,suffix=''}) => {
+  const [val,setVal] = useState(0);
+  const ref = useRef();
+  useEffect(()=>{
+    const obs = new IntersectionObserver(([e])=>{
+      if(e.isIntersecting){
+        let cur=0; const step=target/60;
+        const id=setInterval(()=>{cur=Math.min(cur+step,target);setVal(Math.floor(cur));if(cur>=target)clearInterval(id);},20);
+      }
+    },{threshold:.3});
+    if(ref.current) obs.observe(ref.current);
+    return ()=>obs.disconnect();
+  },[target]);
+  return <span ref={ref}>{val}{suffix}</span>;
+};
+
+// ─── NAVBAR ───────────────────────────────────────────────
+const Navbar = ({page,setPage,user,onLogout,onOpenAuth}) => {
+  const [scrolled,setScrolled] = useState(false);
+  const [menuOpen,setMenuOpen] = useState(false);
+  const notif = useNotif();
+  useEffect(()=>{
+    const h=()=>setScrolled(window.scrollY>60);
+    window.addEventListener('scroll',h);
+    return ()=>window.removeEventListener('scroll',h);
+  },[]);
+  const navLinks = [
+    {label:'Home',id:'home'},{label:'Tracks',id:'tracks'},{label:'Schedule',id:'schedule'},
+    {label:'Mentors',id:'mentors'},{label:'Leaderboard',id:'leaderboard'},{label:'Register',id:'register'}
+  ];
+  const Logo = () => (
+    <button onClick={()=>setPage('home')} style={{background:'none',border:'none',display:'flex',alignItems:'center',gap:'8px',fontFamily:'var(--font-head)',fontSize:'20px',fontWeight:800,color:'var(--text)',cursor:'pointer'}}>
+      <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+        <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="url(#ng1)" strokeWidth="2"/>
+        <polygon points="14,7 21,11 21,17 14,21 7,17 7,11" fill="url(#ng2)" opacity=".7"/>
+        <defs>
+          <linearGradient id="ng1" x1="0" y1="0" x2="28" y2="28"><stop stopColor="#A78BFA"/><stop offset="1" stopColor="#22D3EE"/></linearGradient>
+          <linearGradient id="ng2" x1="0" y1="0" x2="28" y2="28"><stop stopColor="#7C3AED"/><stop offset="1" stopColor="#06B6D4"/></linearGradient>
+        </defs>
+      </svg>
+      HackNova
+    </button>
+  );
+  return (
+    <>
+      <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:1000,padding:'14px 0',transition:'all .3s',background:scrolled?'rgba(8,8,15,0.92)':'transparent',backdropFilter:scrolled?'blur(20px)':'none',borderBottom:scrolled?'1px solid var(--border)':'none'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',display:'flex',alignItems:'center',justifyContent:'space-between',gap:20}}>
+          <Logo/>
+          <div className="desktop-nav" style={{display:'flex',alignItems:'center',gap:4}}>
+            {navLinks.map(l=>(
+              <button key={l.id} onClick={()=>setPage(l.id)} style={{background:page===l.id?'rgba(124,58,237,0.12)':'none',border:'none',padding:'8px 14px',borderRadius:'var(--r)',fontSize:'14px',fontWeight:500,color:page===l.id?'var(--primary-light)':'var(--text2)',cursor:'pointer',transition:'all .2s'}}>
+                {l.label}
+              </button>
+            ))}
+          </div>
+          <div style={{display:'flex',alignItems:'center',gap:10}}>
+            {user
+              ? <>
+                  <button className="btn btn-sm btn-outline desktop-nav" onClick={()=>setPage('dashboard')}>👤 Dashboard</button>
+                  <button className="btn btn-sm btn-danger desktop-nav" onClick={()=>{onLogout();notif('Logged out! See you soon 👋','info');}}>Logout</button>
+                </>
+              : <button className="btn btn-sm btn-outline desktop-nav" onClick={onOpenAuth}>Sign In</button>
+            }
+            <button className="btn btn-sm btn-primary" onClick={()=>setPage('register')}>Register Now</button>
+            <button className="mobile-nav-btn btn btn-ghost btn-sm" style={{padding:'8px',display:'none'}} onClick={()=>setMenuOpen(!menuOpen)}>
+              <span style={{fontSize:20}}>☰</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+      {menuOpen && (
+        <div style={{position:'fixed',top:'62px',left:0,right:0,background:'var(--bg2)',borderBottom:'1px solid var(--border)',padding:'16px 20px',zIndex:999,display:'flex',flexDirection:'column',gap:6}}>
+          {navLinks.map(l=>(
+            <button key={l.id} onClick={()=>{setPage(l.id);setMenuOpen(false);}} style={{background:'none',border:'none',padding:'11px 14px',borderRadius:'var(--r)',fontSize:'14px',fontWeight:500,color:'var(--text2)',cursor:'pointer',textAlign:'left'}}>
+              {l.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
+
+// ─── AUTH MODAL ───────────────────────────────────────────
+const AuthModal = ({onClose,onLogin,setPage}) => {
+  const [tab,setTab] = useState('login');
+  const [lEmail,setLEmail] = useState('');const [lPass,setLPass]=useState('');const [lErr,setLErr]=useState('');
+  const [sFname,setSFname]=useState('');const [sLname,setSLname]=useState('');const [sEmail,setSEmail]=useState('');const [sPass,setSPass]=useState('');const [sErr,setSErr]=useState('');
+  const notif = useNotif();
+
+  const doLogin = () => {
+    if(!lEmail||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lEmail)){setLErr('Valid email required');return;}
+    if(!lPass||lPass.length<6){setLErr('Password too short');return;}
+    const users = JSON.parse(localStorage.getItem('hn_users')||'[]');
+    const found = users.find(u=>u.email===lEmail&&u.pass===lPass);
+    if(!found){setLErr('Invalid email or password');return;}
+    onLogin({email:found.email,fname:found.fname,lname:found.lname});
+    onClose(); notif(`Welcome back, ${found.fname}! 👋`,'success');
+  };
+  const doSignup = () => {
+    if(!sFname){setSErr('Name required');return;}
+    if(!sEmail||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sEmail)){setSErr('Valid email required');return;}
+    if(!sPass||sPass.length<6){setSErr('Min 6 characters');return;}
+    const users = JSON.parse(localStorage.getItem('hn_users')||'[]');
+    if(users.find(u=>u.email===sEmail)){setSErr('Email already registered');return;}
+    users.push({fname:sFname,lname:sLname,email:sEmail,pass:sPass});
+    localStorage.setItem('hn_users',JSON.stringify(users));
+    localStorage.setItem('hn_profile',JSON.stringify({fname:sFname,lname:sLname,email:sEmail,phone:'',github:'',linkedin:'',bio:''}));
+    onLogin({email:sEmail,fname:sFname,lname:sLname});
+    onClose(); notif(`Welcome to HackNova, ${sFname}! 🎉`,'success');
+  };
+  return (
+    <div className="modal-overlay" onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
+      <div className="modal-box">
+        <button onClick={onClose} style={{position:'absolute',top:14,right:14,width:32,height:32,borderRadius:'50%',background:'var(--glass2)',border:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',color:'var(--text2)',fontSize:18}}>✕</button>
+        <div style={{display:'flex',background:'var(--bg3)',borderRadius:'var(--r)',padding:4,marginBottom:24,gap:4}}>
+          {['login','signup'].map(t=>(
+            <button key={t} onClick={()=>setTab(t)} style={{flex:1,padding:'10px',textAlign:'center',borderRadius:'8px',fontSize:'14px',fontWeight:600,cursor:'pointer',border:'none',background:tab===t?'var(--bg2)':'transparent',color:tab===t?'var(--text)':'var(--text2)',boxShadow:tab===t?'0 2px 8px rgba(0,0,0,0.3)':'none',transition:'all .2s'}}>
+              {t==='login'?'Sign In':'Sign Up'}
+            </button>
+          ))}
+        </div>
+        {tab==='login'?(
+          <div>
+            <div style={{marginBottom:14}}><label className="label">Email Address</label><input className="input" type="email" value={lEmail} onChange={e=>{setLEmail(e.target.value);setLErr('');}} placeholder="you@example.com"/></div>
+            <div style={{marginBottom:16}}><label className="label">Password</label><input className="input" type="password" value={lPass} onChange={e=>{setLPass(e.target.value);setLErr('');}} placeholder="••••••••"/></div>
+            {lErr&&<div className="form-err" style={{marginBottom:12}}>⚠ {lErr}</div>}
+            <button className="btn btn-primary" style={{width:'100%',justifyContent:'center'}} onClick={doLogin}>Sign In →</button>
+            <div style={{textAlign:'center',fontSize:'13px',color:'var(--text2)',marginTop:16}}>Don't have an account? <span style={{color:'var(--primary-light)',cursor:'pointer',fontWeight:600}} onClick={()=>setTab('signup')}>Sign Up</span></div>
+          </div>
+        ):(
+          <div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:14}}>
+              <div><label className="label">First Name</label><input className="input" value={sFname} onChange={e=>{setSFname(e.target.value);setSErr('');}} placeholder="Aryan"/></div>
+              <div><label className="label">Last Name</label><input className="input" value={sLname} onChange={e=>setSLname(e.target.value)} placeholder="Sharma"/></div>
+            </div>
+            <div style={{marginBottom:14}}><label className="label">Email Address</label><input className="input" type="email" value={sEmail} onChange={e=>{setSEmail(e.target.value);setSErr('');}} placeholder="you@example.com"/></div>
+            <div style={{marginBottom:16}}><label className="label">Password</label><input className="input" type="password" value={sPass} onChange={e=>{setSPass(e.target.value);setSErr('');}} placeholder="Min 6 characters"/></div>
+            {sErr&&<div className="form-err" style={{marginBottom:12}}>⚠ {sErr}</div>}
+            <button className="btn btn-primary" style={{width:'100%',justifyContent:'center'}} onClick={doSignup}>Create Account →</button>
+            <div style={{textAlign:'center',fontSize:'13px',color:'var(--text2)',marginTop:16}}>Already have an account? <span style={{color:'var(--primary-light)',cursor:'pointer',fontWeight:600}} onClick={()=>setTab('login')}>Sign In</span></div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// ─── PAGE: HOME ───────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+const HomePage = ({setPage,wishlist,setWishlist,user,onOpenAuth}) => {
+  const notif = useNotif();
+  const [filter,setFilter] = useState('all');
+  const [search,setSearch] = useState('');
+  const [openFaq,setOpenFaq] = useState(null);
+  const statsRef = useFadeIn();
+  const aboutRef = useFadeIn();
+  const tracksRef = useFadeIn();
+  const timelineRef = useFadeIn();
+  const prizesRef = useFadeIn();
+  const faqRef = useFadeIn();
+
+  const filteredTracks = TRACKS.filter(t=>(filter==='all'||t.cat===filter)&&(t.name.toLowerCase().includes(search.toLowerCase())||t.desc.toLowerCase().includes(search.toLowerCase())));
+
+  const toggleWish = (id,e) => {
+    e.stopPropagation();
+    if(!user){notif('Sign in to wishlist tracks','info');onOpenAuth();return;}
+    const track = TRACKS.find(t=>t.id===id);
+    const has = wishlist.find(w=>w.id===id);
+    if(has){setWishlist(wishlist.filter(w=>w.id!==id));notif(`Removed "${track.name}" from wishlist`,'info');}
+    else{setWishlist([...wishlist,{id:track.id,name:track.name,icon:track.icon,cat:track.cat}]);notif(`❤️ Added "${track.name}" to wishlist`,'success');}
+  };
+
+  const SectionHeader = ({badge,title,sub,gradient='grad'}) => (
+    <div style={{textAlign:'center',marginBottom:56}}>
+      <span className="badge" style={{marginBottom:12,display:'inline-block'}}>{badge}</span>
+      <h2 style={{fontFamily:'var(--font-head)',fontSize:'clamp(28px,4vw,48px)',fontWeight:800,letterSpacing:'-.02em',marginBottom:14}}
+        dangerouslySetInnerHTML={{__html:title.replace('<g>',`<span class="${gradient}">`).replace('</g>','</span>')}}/>
+      {sub&&<p style={{fontSize:16,color:'var(--text2)',maxWidth:560,margin:'0 auto',lineHeight:1.7}}>{sub}</p>}
+    </div>
+  );
+
+  return (
+    <div>
+      {/* HERO */}
+      <section id="hero" style={{minHeight:'100vh',display:'flex',alignItems:'center',position:'relative',overflow:'hidden',paddingTop:'80px'}}>
+        <Particles/>
+        <div style={{position:'absolute',inset:0,overflow:'hidden',zIndex:0}}>
+          <div className="animate-orb" style={{position:'absolute',width:600,height:600,borderRadius:'50%',background:'radial-gradient(circle,rgba(124,58,237,0.15),transparent)',top:-200,left:-100,filter:'blur(40px)'}}/>
+          <div className="animate-orb" style={{position:'absolute',width:400,height:400,borderRadius:'50%',background:'radial-gradient(circle,rgba(244,63,94,0.12),transparent)',top:200,right:-100,filter:'blur(40px)',animationDelay:'2s'}}/>
+          <div className="animate-orb" style={{position:'absolute',width:300,height:300,borderRadius:'50%',background:'radial-gradient(circle,rgba(6,182,212,0.1),transparent)',bottom:-100,left:'35%',filter:'blur(40px)',animationDelay:'4s'}}/>
+        </div>
+        <div className="grid-bg" style={{position:'absolute',inset:0,opacity:.4,zIndex:0}}/>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',width:'100%',position:'relative',zIndex:1}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:60,alignItems:'center'}}>
+            <div style={{animation:'fadeUp .7s ease forwards'}}>
+              <span className="badge" style={{marginBottom:24,display:'inline-block'}}>🚀 HackNova 2025 · Season III</span>
+              <h1 style={{fontFamily:'var(--font-head)',fontSize:'clamp(40px,5vw,72px)',fontWeight:800,lineHeight:1.05,marginBottom:20,letterSpacing:'-.02em'}}>
+                Build The<br/><span className="grad">Future Today</span>
+              </h1>
+              <p style={{fontSize:'clamp(15px,2vw,18px)',color:'var(--text2)',marginBottom:36,lineHeight:1.75,maxWidth:480}}>
+                48 hours. Unlimited ideas. One chance to change the world. Join 2,000+ developers, designers & dreamers at India's most ambitious hackathon.
+              </p>
+              <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+                <button className="btn btn-primary" onClick={()=>setPage('register')}>Register Now →</button>
+                <button className="btn btn-outline" onClick={()=>setPage('tracks')}>Explore Tracks</button>
+              </div>
+              <div style={{display:'flex',gap:28,marginTop:36,paddingTop:28,borderTop:'1px solid var(--border)'}}>
+                {[['₹50L+','Prize Pool'],['2000+','Participants'],['48H','Non-Stop'],['35+','Mentors']].map(([n,l])=>(
+                  <div key={l} style={{textAlign:'center'}}>
+                    <div style={{fontFamily:'var(--font-head)',fontSize:'clamp(16px,2vw,22px)',fontWeight:800}}>{n}</div>
+                    <div style={{fontSize:11,color:'var(--text3)',fontWeight:600,textTransform:'uppercase',letterSpacing:'.06em',marginTop:3}}>{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{display:'flex',flexDirection:'column',gap:16,animation:'fadeUp .9s ease .2s forwards',opacity:0}}>
+              <Countdown/>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10}}>
+                {[['₹50L+','Prize Pool','var(--primary-light)'],['2000+','Participants','#F43F5E'],['48H','Non-Stop','#06B6D4']].map(([n,l,c])=>(
+                  <div key={l} className="glass" style={{borderRadius:'var(--r)',padding:'14px',textAlign:'center'}}>
+                    <div style={{fontFamily:'var(--font-head)',fontSize:'22px',fontWeight:800,color:c}}>{n}</div>
+                    <div style={{fontSize:11,color:'var(--text3)',fontWeight:600,marginTop:3}}>{l}</div>
+                  </div>
+                ))}
+              </div>
+              {/* Floating badge */}
+              <div className="glass animate-float" style={{borderRadius:'var(--r)',padding:'14px 18px',display:'flex',alignItems:'center',gap:12}}>
+                <div style={{width:40,height:40,borderRadius:'50%',background:'linear-gradient(135deg,#7C3AED,#F43F5E)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>🏆</div>
+                <div>
+                  <div style={{fontSize:13,fontWeight:700}}>Registration Open!</div>
+                  <div style={{fontSize:11,color:'var(--text3)'}}>Only 200 spots remaining</div>
+                </div>
+                <span className="chip chip-green" style={{marginLeft:'auto'}}>Live</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Scroll indicator */}
+        <div style={{position:'absolute',bottom:30,left:'50%',transform:'translateX(-50%)',display:'flex',flexDirection:'column',alignItems:'center',gap:6,animation:'fadeIn 1s ease 1.5s forwards',opacity:0}}>
+          <div style={{fontSize:11,color:'var(--text3)',letterSpacing:'.1em',textTransform:'uppercase',fontWeight:600}}>Scroll</div>
+          <div style={{width:1,height:40,background:'linear-gradient(to bottom,var(--primary),transparent)'}}/>
+        </div>
+      </section>
+
+      {/* STATS STRIP */}
+      <div ref={statsRef} className="section-fade" style={{background:'var(--bg2)',borderTop:'1px solid var(--border)',borderBottom:'1px solid var(--border)',padding:'60px 0'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:0}}>
+          {[{target:2000,s:'+',l:'Registered Participants'},{target:450,s:'+',l:'Teams Formed'},{target:35,s:'+',l:'Sponsors & Partners'},{target:50,s:'L',l:'Prize Pool (₹)'}].map((item,i)=>(
+            <div key={i} style={{textAlign:'center',padding:20,borderRight:i<3?'1px solid var(--border)':'none'}}>
+              <div className="stat-num" style={{background:'linear-gradient(135deg,var(--primary-light),var(--accent2))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',display:'block'}}><Counter target={item.target} suffix={item.s}/></div>
+              <div style={{fontSize:13,color:'var(--text2)',fontWeight:500,marginTop:6}}>{item.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* SPONSORS MARQUEE */}
+      <div style={{background:'var(--bg)',padding:'32px 0',overflow:'hidden',borderBottom:'1px solid var(--border)'}}>
+        <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--text3)',textAlign:'center',marginBottom:20}}>Powered by Industry Giants</div>
+        <div style={{overflow:'hidden'}}>
+          <div className="marquee-track">
+            {[...SPONSORS,...SPONSORS].map((s,i)=>(
+              <div key={i} className="sponsor-logo">{s}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ABOUT */}
+      <section ref={aboutRef} className="section-fade" id="about" style={{padding:'100px 0'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',display:'grid',gridTemplateColumns:'1fr 1fr',gap:60,alignItems:'center'}}>
+          <div>
+            <span className="badge" style={{marginBottom:12,display:'inline-block'}}>About HackNova</span>
+            <h2 style={{fontFamily:'var(--font-head)',fontSize:'clamp(28px,4vw,48px)',fontWeight:800,letterSpacing:'-.02em',marginBottom:20,lineHeight:1.1}}>
+              What is<br/><span className="grad">HackNova?</span>
+            </h2>
+            <p style={{color:'var(--text2)',lineHeight:1.8,marginBottom:14}}>HackNova is India's premier open-innovation hackathon — a 48-hour marathon where brilliant minds converge to solve real-world problems using cutting-edge technology.</p>
+            <p style={{color:'var(--text2)',lineHeight:1.8,marginBottom:32}}>With ₹50L+ in prizes, mentorship from industry giants, and an electrifying atmosphere, HackNova Season III promises to be the most epic edition yet.</p>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14}}>
+              {[['🧠','Expert Mentors','50+ mentors from Google, Microsoft, Razorpay & more'],
+                ['🌐','Hybrid Format','Participate online or join us in Bengaluru'],
+                ['🎓','Open to All','Students, professionals, and indie hackers welcome'],
+                ['⚡','Fast Internet','10Gbps fiber, cloud credits & dev tools provided']
+              ].map(([ic,t,s])=>(
+                <div key={t} className="glass card-hover" style={{borderRadius:'var(--r)',padding:18,cursor:'default'}}>
+                  <div style={{fontSize:24,marginBottom:8}}>{ic}</div>
+                  <div style={{fontFamily:'var(--font-head)',fontSize:14,fontWeight:700,marginBottom:5}}>{t}</div>
+                  <div style={{fontSize:12,color:'var(--text3)',lineHeight:1.5}}>{s}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="animate-float2" style={{background:'var(--glass)',border:'1px solid var(--border)',borderRadius:'var(--r2)',overflow:'hidden'}}>
+            <div style={{background:'linear-gradient(135deg,rgba(124,58,237,0.3),rgba(6,182,212,0.15))',padding:40,textAlign:'center'}}>
+              <div style={{fontSize:60,marginBottom:12}}>🚀</div>
+              <div style={{fontFamily:'var(--font-head)',fontSize:26,fontWeight:800}}>Season III</div>
+              <div style={{color:'var(--text2)',fontSize:14,marginTop:8}}>Bigger. Bolder. Beyond.</div>
+            </div>
+            <div style={{padding:24,display:'flex',flexDirection:'column',gap:14}}>
+              {[['📅','Jul 18–20, 2025 · 48 Hours'],['📍','KTPO, Whitefield, Bengaluru + Online'],['👥','Teams of 2–5 members'],['🏆','₹50,00,000+ total prize pool'],['🎯','6 themed tracks, infinite creativity']].map(([ic,t])=>(
+                <div key={t} style={{display:'flex',alignItems:'center',gap:12}}><span style={{fontSize:18}}>{ic}</span><span style={{fontSize:14,color:'var(--text2)'}}>{t}</span></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TRACKS PREVIEW */}
+      <section ref={tracksRef} className="section-fade" id="tracks" style={{padding:'100px 0',background:'var(--bg2)'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px'}}>
+          <SectionHeader badge="Innovation Tracks" title="Hackathon <g>Themes</g>" sub="Pick your domain, define your problem, build your solution. Six tracks, infinite possibilities."/>
+          <div style={{display:'flex',gap:10,maxWidth:480,margin:'0 auto 28px',flexWrap:'wrap',justifyContent:'center'}}>
+            {['all','tech','health','society','finance'].map(f=>(
+              <button key={f} onClick={()=>setFilter(f)} style={{padding:'7px 16px',borderRadius:999,background:filter===f?'rgba(124,58,237,0.2)':'var(--glass)',border:`1px solid ${filter===f?'var(--primary)':'var(--border)'}`,fontSize:12,fontWeight:600,color:filter===f?'var(--primary-light)':'var(--text2)',cursor:'pointer',textTransform:'capitalize',transition:'all .2s'}}>
+                {f==='all'?'All Tracks':f.charAt(0).toUpperCase()+f.slice(1)}
+              </button>
+            ))}
+          </div>
+          <div style={{maxWidth:480,margin:'0 auto 36px',display:'flex',gap:10}}>
+            <input className="input" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search tracks..." style={{flex:1}}/>
+            {search&&<button className="btn btn-ghost btn-sm" onClick={()=>setSearch('')}>✕</button>}
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20}}>
+            {filteredTracks.length ? filteredTracks.map((t,i)=>{
+              const wished = wishlist.find(w=>w.id===t.id);
+              return (
+                <div key={t.id} className="track-card" style={{animationDelay:`${i*.08}s`}}>
+                  <button onClick={e=>toggleWish(t.id,e)} style={{position:'absolute',top:14,right:14,width:32,height:32,borderRadius:'50%',background:wished?'rgba(244,63,94,0.15)':'var(--glass2)',border:`1px solid ${wished?'rgba(244,63,94,0.4)':'var(--border)'}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,cursor:'pointer',transition:'all .2s',color:wished?'#F43F5E':'inherit'}}>
+                    {wished?'❤️':'🤍'}
+                  </button>
+                  <div style={{width:52,height:52,borderRadius:14,background:t.color,border:`1px solid ${t.border}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,marginBottom:14}}>{t.icon}</div>
+                  <div style={{fontFamily:'var(--font-head)',fontSize:17,fontWeight:700,marginBottom:8}}>{t.name}</div>
+                  <div style={{fontSize:13,color:'var(--text2)',lineHeight:1.6,marginBottom:14}}>{t.desc}</div>
+                  <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>{t.tags.map(tg=><span key={tg} className="tag">{tg}</span>)}</div>
+                </div>
+              );
+            }) : (
+              <div style={{gridColumn:'1/-1',textAlign:'center',padding:'60px',color:'var(--text3)'}}>
+                No tracks found. <span style={{color:'var(--primary-light)',cursor:'pointer'}} onClick={()=>{setSearch('');setFilter('all');}}>Clear filters</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* TIMELINE */}
+      <section ref={timelineRef} className="section-fade" id="timeline" style={{padding:'100px 0'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px'}}>
+          <SectionHeader badge="Key Dates" title="Event <g>Timeline</g>" sub="Mark your calendar. Every milestone matters."/>
+          <div style={{maxWidth:680,margin:'0 auto',position:'relative',paddingLeft:40}}>
+            <div className="tl-line"/>
+            {TIMELINE.map((item,i)=>(
+              <div key={i} style={{position:'relative',marginBottom:40,paddingLeft:20,animation:`fadeUp .5s ease ${i*.05}s both`}}>
+                <div className="tl-dot" style={{background:item.color,color:item.color}}/>
+                <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',color:item.color,marginBottom:6}}>{item.date}</div>
+                <div style={{fontFamily:'var(--font-head)',fontSize:18,fontWeight:700,marginBottom:6}}>{item.title}</div>
+                <div style={{fontSize:13,color:'var(--text2)',lineHeight:1.6,marginBottom:10}}>{item.desc}</div>
+                <span style={{display:'inline-block',padding:'3px 10px',borderRadius:999,fontSize:10,fontWeight:700,background:item.status==='open'?'rgba(16,185,129,0.12)':'rgba(124,58,237,0.12)',color:item.status==='open'?'#10B981':'var(--primary-light)'}}>
+                  {item.status==='open'?'● Open':'◌ Upcoming'}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRIZES */}
+      <section ref={prizesRef} className="section-fade" id="prizes" style={{padding:'100px 0',background:'var(--bg2)'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px'}}>
+          <SectionHeader badge="Rewards" title="Prize <g>Pool</g>" sub="Compete for glory, win life-changing rewards. ₹50L+ total."/>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:24,alignItems:'end',marginBottom:24}}>
+            <div className="prize-card prize-2nd" style={{marginTop:32}}>
+              <div style={{fontSize:44,marginBottom:10}}>🥈</div>
+              <div style={{fontSize:13,fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--text3)',marginBottom:16}}>Runner Up</div>
+              <div style={{fontFamily:'var(--font-head)',fontSize:36,fontWeight:800,color:'#94A3B8',marginBottom:8}}>₹8,00,000</div>
+              <ul style={{listStyle:'none',display:'flex',flexDirection:'column',gap:8,marginTop:16}}>
+                {['💻 MacBook Air M3','☁️ AWS Credits ₹1L','🎓 Udemy Pro 1 Year'].map(p=><li key={p} style={{fontSize:13,color:'var(--text2)'}}>{p}</li>)}
+              </ul>
+            </div>
+            <div className="prize-card prize-1st" style={{transform:'scale(1.06)',zIndex:1}}>
+              <div style={{fontSize:52,marginBottom:10}}>🏆</div>
+              <div style={{fontSize:13,fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--text3)',marginBottom:16}}>Grand Winner</div>
+              <div style={{fontFamily:'var(--font-head)',fontSize:40,fontWeight:800,color:'#FBBF24',marginBottom:8}}>₹20,00,000</div>
+              <ul style={{listStyle:'none',display:'flex',flexDirection:'column',gap:8,marginTop:16}}>
+                {['💻 MacBook Pro M4','☁️ AWS Credits ₹3L','🚀 VC Pitch Opportunity','🎓 Incubation Support'].map(p=><li key={p} style={{fontSize:13,color:'var(--text2)'}}>{p}</li>)}
+              </ul>
+            </div>
+            <div className="prize-card prize-3rd" style={{marginTop:32}}>
+              <div style={{fontSize:44,marginBottom:10}}>🥉</div>
+              <div style={{fontSize:13,fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',color:'var(--text3)',marginBottom:16}}>Third Place</div>
+              <div style={{fontFamily:'var(--font-head)',fontSize:36,fontWeight:800,color:'#FB923C',marginBottom:8}}>₹4,00,000</div>
+              <ul style={{listStyle:'none',display:'flex',flexDirection:'column',gap:8,marginTop:16}}>
+                {['🎧 Apple AirPods Max','☁️ GCP Credits ₹50K','📚 O\'Reilly Pro 1 Year'].map(p=><li key={p} style={{fontSize:13,color:'var(--text2)'}}>{p}</li>)}
+              </ul>
+            </div>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:12}}>
+            {[['🤖 Best AI Track','₹3L'],['💚 Best Social Impact','₹2L'],['🌱 Best GreenTech','₹2L'],['👶 Best First-Timer','₹1L'],['🎨 Best Design','₹1L'],['⚡ Most Innovative','₹1L']].map(([n,a])=>(
+              <div key={n} className="glass card-hover" style={{borderRadius:'var(--r)',padding:'16px',textAlign:'center',cursor:'default'}}>
+                <div style={{fontSize:12,fontWeight:600,color:'var(--text2)',marginBottom:8}}>{n}</div>
+                <div style={{fontFamily:'var(--font-head)',fontSize:20,fontWeight:800,color:'var(--primary-light)'}}>{a}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* MENTORS PREVIEW */}
+      <section style={{padding:'100px 0'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px'}}>
+          <SectionHeader badge="Expert Guidance" title="Meet Your <g>Mentors</g>" sub="Learn from the best. 50+ mentors from top companies ready to guide you."/>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:16}}>
+            {MENTORS.map((m,i)=>(
+              <div key={m.name} className="mentor-card">
+                <div className={`mentor-avatar`} style={{background:`linear-gradient(135deg,${['#7C3AED,#9F67FF','#F59E0B,#FBBF24','#10B981,#34D399','#10B981,#06B6D4','#06B6D4,#38BDF8','#F43F5E,#FB7185'][i]})`}}>
+                  {m.avatar}
+                </div>
+                <div style={{fontFamily:'var(--font-head)',fontSize:13,fontWeight:700,marginBottom:4}}>{m.name}</div>
+                <div style={{fontSize:11,color:'var(--text2)',marginBottom:8}}>{m.role}</div>
+                <span className="tag" style={{fontSize:10}}>{m.expertise}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{textAlign:'center',marginTop:32}}>
+            <button className="btn btn-outline" onClick={()=>setPage('mentors')}>View All 50+ Mentors →</button>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section ref={faqRef} className="section-fade" id="faq" style={{padding:'100px 0',background:'var(--bg2)'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px'}}>
+          <SectionHeader badge="Help Center" title="Frequently <g>Asked</g>"/>
+          <div style={{maxWidth:800,margin:'0 auto',display:'flex',flexDirection:'column',gap:10}}>
+            {FAQS.map((f,i)=>(
+              <div key={i} className={`faq-item`} style={{border:`1px solid ${openFaq===i?'var(--primary)':'var(--border)'}`}}>
+                <div onClick={()=>setOpenFaq(openFaq===i?null:i)} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'18px 22px',cursor:'pointer',gap:16}}>
+                  <span style={{fontFamily:'var(--font-head)',fontSize:14,fontWeight:600}}>{f.q}</span>
+                  <span style={{color:'var(--primary-light)',fontSize:20,transform:openFaq===i?'rotate(45deg)':'none',transition:'transform .3s',flexShrink:0,fontWeight:300}}>+</span>
+                </div>
+                {openFaq===i&&<div style={{padding:'0 22px 18px',fontSize:13,color:'var(--text2)',lineHeight:1.7}}>{f.a}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA BANNER */}
+      <section style={{padding:'80px 0'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px'}}>
+          <div className="animate-gradient" style={{background:'linear-gradient(135deg,#4C1D95,#7C3AED,#06B6D4,#4C1D95)',borderRadius:'var(--r3)',padding:'60px 40px',textAlign:'center',position:'relative',overflow:'hidden'}}>
+            <div style={{position:'absolute',inset:0,opacity:.1}} className="grid-bg"/>
+            <div style={{position:'relative',zIndex:1}}>
+              <div style={{fontSize:48,marginBottom:16}}>🚀</div>
+              <h2 style={{fontFamily:'var(--font-head)',fontSize:'clamp(28px,4vw,48px)',fontWeight:800,marginBottom:14,letterSpacing:'-.02em'}}>Ready to Build the Future?</h2>
+              <p style={{fontSize:16,opacity:.85,marginBottom:32,maxWidth:500,margin:'0 auto 32px'}}>Join thousands of innovators. Register for HackNova 2025 — it's free!</p>
+              <button className="btn btn-primary" style={{fontSize:16,padding:'15px 36px'}} onClick={()=>setPage('register')}>Register Now — It's Free! 🎉</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={{background:'var(--bg2)',borderTop:'1px solid var(--border)',padding:'60px 0 28px'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px'}}>
+          <div style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr 1fr',gap:40,marginBottom:40}}>
+            <div>
+              <div style={{fontFamily:'var(--font-head)',fontSize:20,fontWeight:800,marginBottom:14,display:'flex',alignItems:'center',gap:8}}>
+                <svg width="22" height="22" viewBox="0 0 28 28" fill="none"><polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="url(#fg1)" strokeWidth="2"/><polygon points="14,7 21,11 21,17 14,21 7,17 7,11" fill="url(#fg2)" opacity=".7"/><defs><linearGradient id="fg1" x1="0" y1="0" x2="28" y2="28"><stop stopColor="#A78BFA"/><stop offset="1" stopColor="#22D3EE"/></linearGradient><linearGradient id="fg2" x1="0" y1="0" x2="28" y2="28"><stop stopColor="#7C3AED"/><stop offset="1" stopColor="#06B6D4"/></linearGradient></defs></svg>
+                HackNova
+              </div>
+              <p style={{fontSize:13,color:'var(--text3)',lineHeight:1.7,maxWidth:260}}>India's most ambitious hackathon. Build, compete, and shape the future of technology.</p>
+              <div style={{display:'flex',gap:10,marginTop:18}}>
+                {['𝕏','in','▶','📸','💬'].map(s=>(
+                  <a key={s} href="#" style={{width:36,height:36,borderRadius:10,background:'var(--glass2)',border:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,transition:'all .2s'}}>
+                    {s}
+                  </a>
+                ))}
+              </div>
+            </div>
+            {[['Quick Links',[['Home','home'],['Tracks','tracks'],['Schedule','schedule'],['Prizes','#prizes'],['Register','register']]],
+              ['Resources',[['Sponsor Kit','#'],['Judging Criteria','#'],['Code of Conduct','#'],['Press Kit','#'],['Past Projects','#']]],
+              ['Contact',[['hello@hacknova.in','#'],['Discord Community','#'],['FAQ','#'],['Volunteer','#']]]
+            ].map(([title,links])=>(
+              <div key={title}>
+                <div style={{fontSize:12,fontWeight:700,textTransform:'uppercase',letterSpacing:'.08em',color:'var(--text3)',marginBottom:14}}>{title}</div>
+                <div style={{display:'flex',flexDirection:'column',gap:8}}>
+                  {links.map(([l,id])=>(
+                    <span key={l} onClick={()=>typeof id==='string'&&!id.startsWith('#')&&setPage(id)} style={{fontSize:13,color:'var(--text2)',cursor:'pointer',transition:'color .2s'}}
+                      onMouseEnter={e=>e.target.style.color='var(--primary-light)'}
+                      onMouseLeave={e=>e.target.style.color='var(--text2)'}>{l}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',paddingTop:24,borderTop:'1px solid var(--border)',flexWrap:'wrap',gap:12}}>
+            <p style={{fontSize:12,color:'var(--text3)'}}>© 2025 HackNova. All rights reserved. Made with ❤️ in India.</p>
+            <p style={{fontSize:12,color:'var(--text3)'}}>Privacy · Terms · Cookies</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// ─── PAGE: REGISTER ───────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+const RegisterPage = ({registrations,setRegistrations,setPage}) => {
+  const notif = useNotif();
+  const [done,setDone] = useState(false);
+  const [form,setForm] = useState({fname:'',lname:'',email:'',phone:'',team:'',track:'',mode:'online',tshirt:'M',github:'',linkedin:''});
+  const [errs,setErrs] = useState({});
+
+  const set = (k,v) => setForm(prev=>({...prev,[k]:v}));
+  const validate = () => {
+    const e={};
+    if(!form.fname.trim()) e.fname='First name required';
+    if(!form.lname.trim()) e.lname='Last name required';
+    if(!form.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email='Valid email required';
+    if(!form.phone||!/^\d{10}$/.test(form.phone)) e.phone='10-digit phone required';
+    if(!form.team.trim()) e.team='Team name required';
+    setErrs(e); return Object.keys(e).length===0;
+  };
+  const submit = e => {
+    e.preventDefault();
+    if(!validate()) return;
+    const reg = {...form,id:Date.now(),date:new Date().toLocaleDateString()};
+    setRegistrations([...registrations,reg]);
+    setDone(true);
+    notif('🎉 Registration successful! Welcome to HackNova!','success');
+  };
+
+  if(done) return (
+    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',paddingTop:80}}>
+      <div style={{textAlign:'center',maxWidth:500,padding:40}}>
+        <div style={{fontSize:72,marginBottom:20,animation:'float 3s ease-in-out infinite'}}>🎉</div>
+        <h2 style={{fontFamily:'var(--font-head)',fontSize:32,fontWeight:800,marginBottom:12}}>You're Registered!</h2>
+        <p style={{color:'var(--text2)',lineHeight:1.7,marginBottom:32}}>Welcome to HackNova 2025! Check your email for confirmation. We can't wait to see what you build.</p>
+        <div style={{display:'flex',gap:12,justifyContent:'center'}}>
+          <button className="btn btn-primary" onClick={()=>setPage('home')}>Back to Home</button>
+          <button className="btn btn-outline" onClick={()=>setDone(false)}>Register Another</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{minHeight:'100vh',paddingTop:'80px'}}>
+      {/* HERO */}
+      <div style={{background:'linear-gradient(135deg,rgba(124,58,237,0.15),rgba(6,182,212,0.08))',borderBottom:'1px solid var(--border)',padding:'60px 24px',textAlign:'center'}}>
+        <span className="badge" style={{marginBottom:12,display:'inline-block'}}>Join 2000+ Hackers</span>
+        <h1 style={{fontFamily:'var(--font-head)',fontSize:'clamp(32px,4vw,56px)',fontWeight:800,marginBottom:14}}>Register for <span className="grad">HackNova 2025</span></h1>
+        <p style={{color:'var(--text2)',fontSize:16,maxWidth:480,margin:'0 auto'}}>Spots are limited. Secure yours before July 1, 2025.</p>
+      </div>
+      <div style={{maxWidth:1100,margin:'0 auto',padding:'60px 24px',display:'grid',gridTemplateColumns:'1fr 380px',gap:40,alignItems:'start'}}>
+        {/* FORM */}
+        <div className="glass" style={{borderRadius:'var(--r2)',padding:'36px'}}>
+          <h3 style={{fontFamily:'var(--font-head)',fontSize:22,fontWeight:700,marginBottom:6}}>Your Details</h3>
+          <p style={{fontSize:13,color:'var(--text2)',marginBottom:28}}>Fill in your information to register</p>
+          <form onSubmit={submit}>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
+              <div>
+                <label className="label">First Name *</label>
+                <input className={`input${errs.fname?' err':''}`} value={form.fname} onChange={e=>set('fname',e.target.value)} placeholder="Aryan"/>
+                {errs.fname&&<div className="form-err">{errs.fname}</div>}
+              </div>
+              <div>
+                <label className="label">Last Name *</label>
+                <input className={`input${errs.lname?' err':''}`} value={form.lname} onChange={e=>set('lname',e.target.value)} placeholder="Sharma"/>
+                {errs.lname&&<div className="form-err">{errs.lname}</div>}
+              </div>
+            </div>
+            <div style={{marginBottom:16}}>
+              <label className="label">Email Address *</label>
+              <input className={`input${errs.email?' err':''}`} type="email" value={form.email} onChange={e=>set('email',e.target.value)} placeholder="aryan@example.com"/>
+              {errs.email&&<div className="form-err">{errs.email}</div>}
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
+              <div>
+                <label className="label">Phone Number *</label>
+                <input className={`input${errs.phone?' err':''}`} type="tel" value={form.phone} onChange={e=>set('phone',e.target.value)} placeholder="10-digit number"/>
+                {errs.phone&&<div className="form-err">{errs.phone}</div>}
+              </div>
+              <div>
+                <label className="label">Team Name *</label>
+                <input className={`input${errs.team?' err':''}`} value={form.team} onChange={e=>set('team',e.target.value)} placeholder="ByteBenders"/>
+                {errs.team&&<div className="form-err">{errs.team}</div>}
+              </div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
+              <div>
+                <label className="label">Preferred Track</label>
+                <select className="input" value={form.track} onChange={e=>set('track',e.target.value)}>
+                  <option value="">Select a track</option>
+                  {TRACKS.map(t=><option key={t.id} value={t.name}>{t.name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="label">Participation Mode</label>
+                <select className="input" value={form.mode} onChange={e=>set('mode',e.target.value)}>
+                  <option value="online">Online</option>
+                  <option value="offline">In-Person (Bengaluru)</option>
+                </select>
+              </div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
+              <div>
+                <label className="label">GitHub Profile</label>
+                <input className="input" value={form.github} onChange={e=>set('github',e.target.value)} placeholder="github.com/username"/>
+              </div>
+              <div>
+                <label className="label">T-Shirt Size</label>
+                <select className="input" value={form.tshirt} onChange={e=>set('tshirt',e.target.value)}>
+                  {['XS','S','M','L','XL','XXL'].map(s=><option key={s}>{s}</option>)}
+                </select>
+              </div>
+            </div>
+            <div style={{marginBottom:24}}>
+              <label className="label">LinkedIn Profile</label>
+              <input className="input" value={form.linkedin} onChange={e=>set('linkedin',e.target.value)} placeholder="linkedin.com/in/username"/>
+            </div>
+            <button type="submit" className="btn btn-primary" style={{width:'100%',justifyContent:'center',fontSize:15,padding:'14px'}}>
+              Submit Registration 🚀
+            </button>
+          </form>
+        </div>
+        {/* INFO */}
+        <div style={{display:'flex',flexDirection:'column',gap:20,position:'sticky',top:'90px'}}>
+          {[
+            ['🗓️','Registration Deadline','July 1, 2025 · 11:59 PM IST · Only 200 spots left'],
+            ['👥','Team Size','2 to 5 members. Solo participants will be matched.'],
+            ['💰','Registration Fee','Completely FREE! Meals, swag & cloud credits included.'],
+            ['📦','What\'s Included','Swag kit, meals, ₹5000 cloud credits, workshops & mentors.'],
+            ['🏅','Certificates','Verified digital certificate for all participants.'],
+          ].map(([ic,t,s])=>(
+            <div key={t} style={{display:'flex',gap:14,alignItems:'flex-start'}}>
+              <div style={{width:44,height:44,borderRadius:12,background:'rgba(124,58,237,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0}}>{ic}</div>
+              <div>
+                <div style={{fontFamily:'var(--font-head)',fontSize:14,fontWeight:700,marginBottom:4}}>{t}</div>
+                <div style={{fontSize:12,color:'var(--text2)',lineHeight:1.6}}>{s}</div>
+              </div>
+            </div>
+          ))}
+          <div style={{background:'linear-gradient(135deg,rgba(124,58,237,0.12),rgba(6,182,212,0.08))',border:'1px solid var(--border2)',borderRadius:'var(--r)',padding:20,marginTop:8}}>
+            <div style={{fontSize:13,fontWeight:700,marginBottom:8}}>📊 Registration Progress</div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,color:'var(--text2)',marginBottom:8}}>
+              <span>1,800 registered</span><span>2,000 limit</span>
+            </div>
+            <div className="progress-bar"><div className="progress-fill" style={{width:'90%',background:'linear-gradient(90deg,var(--primary),var(--accent2))'}}/></div>
+            <div style={{fontSize:11,color:'var(--warning)',marginTop:8,fontWeight:600}}>⚠️ Only 200 spots remaining!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// ─── PAGE: TRACKS ─────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+const TracksPage = ({wishlist,setWishlist,user,onOpenAuth,setPage}) => {
+  const notif = useNotif();
+  const [filter,setFilter] = useState('all');
+  const [search,setSearch] = useState('');
+  const [selected,setSelected] = useState(null);
+
+  const filtered = TRACKS.filter(t=>(filter==='all'||t.cat===filter)&&(t.name.toLowerCase().includes(search.toLowerCase())||t.desc.toLowerCase().includes(search.toLowerCase())));
+
+  const toggleWish = (id,e) => {
+    e?.stopPropagation();
+    if(!user){notif('Sign in to wishlist tracks','info');onOpenAuth();return;}
+    const track = TRACKS.find(t=>t.id===id);
+    const has = wishlist.find(w=>w.id===id);
+    if(has){setWishlist(wishlist.filter(w=>w.id!==id));notif(`Removed from wishlist`,'info');}
+    else{setWishlist([...wishlist,{id:track.id,name:track.name,icon:track.icon,cat:track.cat}]);notif(`❤️ Added to wishlist`,'success');}
+  };
+
+  const TRACK_DETAILS = {
+    ai:{problems:['Build a multilingual voice assistant for rural India','AI-powered early cancer detection from scans','Personalized learning paths using LLMs'],stack:['Python','TensorFlow','LangChain','OpenAI','HuggingFace'],resources:['Gemini API Credits','AWS SageMaker','Cohere API'],judge:'Dr. Priya Kumar, Head of AI at Google India'},
+    web3:{problems:['Decentralized identity for the unbanked','On-chain micro-lending platform for rural SMEs','NFT-based land registry system'],stack:['Solidity','Hardhat','Ethers.js','IPFS','The Graph'],resources:['Polygon Mumbai Testnet','Alchemy API','Moralis'],judge:'Arjun Mehta, Blockchain Lead at Polygon'},
+    health:{problems:['AI-powered triage for rural health centers','Mental health companion for college students','Real-time epidemic prediction model'],stack:['React Native','Python','FHIR API','TensorFlow Lite'],resources:['AWS Healthcare APIs','Google Health API'],judge:'Dr. Neha Gupta, CTO HealthBridge'},
+    green:{problems:['Carbon footprint tracker for supply chains','Smart water conservation for agriculture','EV charging network optimizer'],stack:['IoT','React','Python','InfluxDB','Grafana'],resources:['Azure IoT Hub','Google Maps API'],judge:'Rohan Verma, Founder GreenGrid'},
+    fintech:{problems:['Credit scoring for informal workers','Instant micro-insurance for gig workers','AI fraud detection for UPI transactions'],stack:['Node.js','Python','PostgreSQL','Razorpay API'],resources:['Razorpay Sandbox','Setu API','Stripe Test Mode'],judge:'Sanya Kapoor, VP Product Razorpay'},
+    social:{problems:['Accessible tech for visually impaired farmers','AI tutor for first-generation college students','Civic complaint resolution platform'],stack:['React','Node.js','Python','Twilio','Firebase'],resources:['Twilio Credits','Firebase Pro','Google Translate API'],judge:'Dev Anand, SWE III Microsoft'},
+  };
+
+  return (
+    <div style={{minHeight:'100vh',paddingTop:80}}>
+      <div style={{background:'linear-gradient(135deg,rgba(124,58,237,0.12),rgba(6,182,212,0.06))',borderBottom:'1px solid var(--border)',padding:'56px 24px',textAlign:'center'}}>
+        <span className="badge" style={{marginBottom:12,display:'inline-block'}}>Innovation Tracks</span>
+        <h1 style={{fontFamily:'var(--font-head)',fontSize:'clamp(30px,4vw,52px)',fontWeight:800,marginBottom:14}}>Hackathon <span className="grad">Themes</span></h1>
+        <p style={{color:'var(--text2)',fontSize:15,maxWidth:520,margin:'0 auto'}}>Six tracks, infinite possibilities. Choose your domain and build something incredible.</p>
+      </div>
+      <div style={{maxWidth:1200,margin:'0 auto',padding:'48px 24px'}}>
+        <div style={{display:'flex',gap:10,justifyContent:'center',flexWrap:'wrap',marginBottom:24}}>
+          {['all','tech','health','society','finance'].map(f=>(
+            <button key={f} onClick={()=>setFilter(f)} style={{padding:'7px 18px',borderRadius:999,background:filter===f?'rgba(124,58,237,0.2)':'var(--glass)',border:`1px solid ${filter===f?'var(--primary)':'var(--border)'}`,fontSize:12,fontWeight:600,color:filter===f?'var(--primary-light)':'var(--text2)',cursor:'pointer',textTransform:'capitalize',transition:'all .2s'}}>
+              {f==='all'?'All':f.charAt(0).toUpperCase()+f.slice(1)}
+            </button>
+          ))}
+        </div>
+        <div style={{maxWidth:460,margin:'0 auto 36px',display:'flex',gap:10}}>
+          <input className="input" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search tracks..."/>
+          {search&&<button className="btn btn-ghost btn-sm" onClick={()=>setSearch('')}>✕</button>}
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20}}>
+          {filtered.map(t=>{
+            const det = TRACK_DETAILS[t.id];
+            const wished = wishlist.find(w=>w.id===t.id);
+            return (
+              <div key={t.id} className="track-card">
+                <button onClick={e=>toggleWish(t.id,e)} style={{position:'absolute',top:14,right:14,width:32,height:32,borderRadius:'50%',background:wished?'rgba(244,63,94,0.15)':'var(--glass2)',border:`1px solid ${wished?'rgba(244,63,94,0.4)':'var(--border)'}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,cursor:'pointer',color:wished?'#F43F5E':'inherit'}}>
+                  {wished?'❤️':'🤍'}
+                </button>
+                <div style={{width:52,height:52,borderRadius:14,background:t.color,border:`1px solid ${t.border}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,marginBottom:14}}>{t.icon}</div>
+                <div style={{fontFamily:'var(--font-head)',fontSize:17,fontWeight:700,marginBottom:8}}>{t.name}</div>
+                <div style={{fontSize:13,color:'var(--text2)',lineHeight:1.6,marginBottom:14}}>{t.desc}</div>
+                <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:16}}>{t.tags.map(tg=><span key={tg} className="tag">{tg}</span>)}</div>
+                <button className="btn btn-outline btn-sm" style={{width:'100%',justifyContent:'center'}} onClick={()=>setSelected(t.id===selected?null:t.id)}>
+                  {t.id===selected?'▲ Hide Details':'▼ View Details'}
+                </button>
+                {t.id===selected&&det&&(
+                  <div style={{marginTop:18,paddingTop:18,borderTop:'1px solid var(--border)',animation:'fadeUp .3s ease'}}>
+                    <div style={{marginBottom:14}}>
+                      <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'.07em',color:'var(--text3)',marginBottom:8}}>Sample Problems</div>
+                      {det.problems.map(p=><div key={p} style={{fontSize:12,color:'var(--text2)',padding:'6px 10px',background:'var(--bg3)',borderRadius:6,marginBottom:6}}>• {p}</div>)}
+                    </div>
+                    <div style={{marginBottom:14}}>
+                      <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'.07em',color:'var(--text3)',marginBottom:8}}>Suggested Stack</div>
+                      <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>{det.stack.map(s=><span key={s} style={{padding:'3px 8px',background:'rgba(124,58,237,0.1)',border:'1px solid rgba(124,58,237,0.2)',borderRadius:5,fontSize:11,color:'var(--primary-light)'}}>{s}</span>)}</div>
+                    </div>
+                    <div>
+                      <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'.07em',color:'var(--text3)',marginBottom:6}}>Track Judge</div>
+                      <div style={{fontSize:12,color:'var(--text2)'}}>{det.judge}</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// ─── PAGE: SCHEDULE ───────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+const SchedulePage = () => {
+  const [filter,setFilter] = useState('all');
+  const typeColors = {ceremony:'rgba(124,58,237,0.15)',hack:'rgba(244,63,94,0.15)',workshop:'rgba(6,182,212,0.15)',mentor:'rgba(16,185,129,0.15)',social:'rgba(251,191,36,0.15)',demo:'rgba(251,146,60,0.15)',deadline:'rgba(239,68,68,0.15)'};
+  const typeBorders = {ceremony:'rgba(124,58,237,0.3)',hack:'rgba(244,63,94,0.3)',workshop:'rgba(6,182,212,0.3)',mentor:'rgba(16,185,129,0.3)',social:'rgba(251,191,36,0.3)',demo:'rgba(251,146,60,0.3)',deadline:'rgba(239,68,68,0.3)'};
+  const typeColors2 = {ceremony:'var(--primary-light)',hack:'#F43F5E',workshop:'#06B6D4',mentor:'#10B981',social:'#FBBF24',demo:'#FB923C',deadline:'#EF4444'};
+  const icons = {ceremony:'🎤',hack:'💻',workshop:'📚',mentor:'🧠',social:'🍕',demo:'🎯',deadline:'⏰'};
+  const filtered = filter==='all'?SCHEDULE:SCHEDULE.filter(s=>s.type===filter);
+  return (
+    <div style={{minHeight:'100vh',paddingTop:80}}>
+      <div style={{background:'linear-gradient(135deg,rgba(6,182,212,0.1),rgba(124,58,237,0.08))',borderBottom:'1px solid var(--border)',padding:'56px 24px',textAlign:'center'}}>
+        <span className="badge" style={{marginBottom:12,display:'inline-block'}}>Jul 18–20, 2025</span>
+        <h1 style={{fontFamily:'var(--font-head)',fontSize:'clamp(28px,4vw,52px)',fontWeight:800,marginBottom:14}}>Event <span className="grad">Schedule</span></h1>
+        <p style={{color:'var(--text2)',fontSize:15,maxWidth:500,margin:'0 auto'}}>48 hours packed with hacking, workshops, mentoring & epic memories.</p>
+      </div>
+      <div style={{maxWidth:900,margin:'0 auto',padding:'48px 24px'}}>
+        <div style={{display:'flex',gap:8,flexWrap:'wrap',justifyContent:'center',marginBottom:36}}>
+          {['all','hack','workshop','mentor','social','demo','ceremony','deadline'].map(t=>(
+            <button key={t} onClick={()=>setFilter(t)} style={{padding:'6px 14px',borderRadius:999,background:filter===t?typeColors[t]||'rgba(124,58,237,0.2)':'var(--glass)',border:`1px solid ${filter===t?typeBorders[t]||'var(--primary)':'var(--border)'}`,fontSize:11,fontWeight:700,color:filter===t?typeColors2[t]||'var(--primary-light)':'var(--text2)',cursor:'pointer',textTransform:'capitalize',transition:'all .2s'}}>
+              {t==='all'?'All':icons[t]+' '+t.charAt(0).toUpperCase()+t.slice(1)}
+            </button>
+          ))}
+        </div>
+        <div style={{display:'flex',flexDirection:'column',gap:10}}>
+          {filtered.map((s,i)=>(
+            <div key={i} className="schedule-item" style={{background:typeColors[s.type],border:`1px solid ${typeBorders[s.type]}`,animation:`fadeUp .4s ease ${i*.03}s both`}}>
+              <div style={{width:42,height:42,borderRadius:10,background:'rgba(255,255,255,0.05)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0}}>{icons[s.type]}</div>
+              <div style={{flex:1}}>
+                <div style={{fontFamily:'var(--font-head)',fontSize:14,fontWeight:700,marginBottom:4}}>{s.event}</div>
+                <div style={{fontSize:12,color:'var(--text2)'}}>{s.venue}</div>
+              </div>
+              <div style={{textAlign:'right',flexShrink:0}}>
+                <div style={{fontSize:12,fontWeight:700,color:typeColors2[s.type]}}>{s.time}</div>
+                <span style={{fontSize:10,fontWeight:700,color:typeColors2[s.type],textTransform:'uppercase',letterSpacing:'.06em'}}>{s.type}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// ─── PAGE: MENTORS ────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+const MentorsPage = () => {
+  const [search,setSearch] = useState('');
+  const allMentors = [
+    ...MENTORS,
+    {name:'Karan Nair',role:'Lead Engineer @ Flipkart',avatar:'KN',expertise:'Backend',color:'from-indigo-500 to-purple-500'},
+    {name:'Divya Rao',role:'Product @ Swiggy',avatar:'DR',expertise:'Product',color:'from-pink-500 to-rose-500'},
+    {name:'Ankit Shah',role:'Data Scientist @ CRED',avatar:'AS',expertise:'Data Science',color:'from-orange-500 to-yellow-500'},
+    {name:'Meera Krishnan',role:'UX Lead @ Zomato',avatar:'MK',expertise:'Design',color:'from-teal-500 to-cyan-500'},
+    {name:'Vijay Patel',role:'CTO @ PhonePe',avatar:'VP',expertise:'FinTech',color:'from-blue-500 to-indigo-500'},
+    {name:'Isha Agarwal',role:'Research @ IISc',avatar:'IA',expertise:'Research',color:'from-violet-500 to-purple-500'},
+  ];
+  const filtered = allMentors.filter(m=>m.name.toLowerCase().includes(search.toLowerCase())||m.expertise.toLowerCase().includes(search.toLowerCase())||m.role.toLowerCase().includes(search.toLowerCase()));
+  const gradients = ['#7C3AED,#9F67FF','#F59E0B,#FBBF24','#10B981,#34D399','#10B981,#06B6D4','#06B6D4,#38BDF8','#F43F5E,#FB7185','#6366F1,#8B5CF6','#EC4899,#F43F5E','#F97316,#FBBF24','#14B8A6,#06B6D4','#3B82F6,#6366F1','#8B5CF6,#A78BFA'];
+  return (
+    <div style={{minHeight:'100vh',paddingTop:80}}>
+      <div style={{background:'linear-gradient(135deg,rgba(16,185,129,0.1),rgba(124,58,237,0.08))',borderBottom:'1px solid var(--border)',padding:'56px 24px',textAlign:'center'}}>
+        <span className="badge" style={{marginBottom:12,display:'inline-block'}}>Expert Guidance</span>
+        <h1 style={{fontFamily:'var(--font-head)',fontSize:'clamp(28px,4vw,52px)',fontWeight:800,marginBottom:14}}>Meet Your <span className="grad3">Mentors</span></h1>
+        <p style={{color:'var(--text2)',fontSize:15,maxWidth:500,margin:'0 auto 28px'}}>50+ mentors from Google, Microsoft, Razorpay, Polygon & top startups, ready to guide you.</p>
+        <input className="input" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search by name, expertise or company..." style={{maxWidth:400,margin:'0 auto',display:'block'}}/>
+      </div>
+      <div style={{maxWidth:1200,margin:'0 auto',padding:'48px 24px',display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:20}}>
+        {filtered.map((m,i)=>(
+          <div key={m.name} className="mentor-card" style={{animation:`fadeUp .4s ease ${i*.04}s both`}}>
+            <div style={{width:80,height:80,borderRadius:'50%',margin:'0 auto 14px',display:'flex',alignItems:'center',justifyContent:'center',fontSize:26,fontFamily:'var(--font-head)',fontWeight:800,background:`linear-gradient(135deg,${gradients[i%gradients.length]})`,border:'2px solid rgba(124,58,237,0.3)'}}>
+              {m.avatar}
+            </div>
+            <div style={{fontFamily:'var(--font-head)',fontSize:14,fontWeight:700,marginBottom:4}}>{m.name}</div>
+            <div style={{fontSize:12,color:'var(--text2)',marginBottom:10}}>{m.role}</div>
+            <span className="tag">{m.expertise}</span>
+            <div style={{marginTop:14,display:'flex',gap:6,justifyContent:'center'}}>
+              <button className="btn btn-xs btn-outline">Book Session</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// ─── PAGE: LEADERBOARD ────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+const LeaderboardPage = () => {
+  const [filter,setFilter] = useState('all');
+  const filtered = filter==='all'?LEADERBOARD:LEADERBOARD.filter(l=>l.track.toLowerCase().includes(filter.toLowerCase()));
+  const medals = ['🥇','🥈','🥉'];
+  const rankClass = i => i===0?'lb-1':i===1?'lb-2':i===2?'lb-3':'';
+  return (
+    <div style={{minHeight:'100vh',paddingTop:80}}>
+      <div style={{background:'linear-gradient(135deg,rgba(251,191,36,0.1),rgba(124,58,237,0.08))',borderBottom:'1px solid var(--border)',padding:'56px 24px',textAlign:'center'}}>
+        <span className="badge" style={{marginBottom:12,display:'inline-block'}}>Live Rankings</span>
+        <h1 style={{fontFamily:'var(--font-head)',fontSize:'clamp(28px,4vw,52px)',fontWeight:800,marginBottom:14}}>Live <span className="grad2">Leaderboard</span></h1>
+        <p style={{color:'var(--text2)',fontSize:15,maxWidth:480,margin:'0 auto'}}>Real-time scores. Updated every 30 minutes during the hackathon.</p>
+      </div>
+      <div style={{maxWidth:800,margin:'0 auto',padding:'48px 24px'}}>
+        {/* Top 3 Podium */}
+        <div style={{display:'flex',alignItems:'flex-end',justifyContent:'center',gap:12,marginBottom:48}}>
+          {[{...LEADERBOARD[1],pos:2,h:140},{...LEADERBOARD[0],pos:1,h:180},{...LEADERBOARD[2],pos:3,h:110}].map((t)=>(
+            <div key={t.rank} style={{flex:1,maxWidth:180,textAlign:'center'}}>
+              <div style={{marginBottom:10}}>
+                <div style={{width:56,height:56,borderRadius:'50%',background:`linear-gradient(135deg,${t.pos===1?'#FBBF24,#F59E0B':t.pos===2?'#94A3B8,#64748B':'#FB923C,#EA580C'})`,margin:'0 auto 8px',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,fontFamily:'var(--font-head)',fontWeight:800,border:`2px solid ${t.pos===1?'#FBBF24':t.pos===2?'#94A3B8':'#FB923C'}`,boxShadow:`0 0 20px ${t.pos===1?'rgba(251,191,36,0.3)':t.pos===2?'rgba(148,163,184,0.3)':'rgba(251,146,60,0.3)'}`}}>
+                  {t.team[0]}
+                </div>
+                <div style={{fontSize:12,fontWeight:700}}>{t.team}</div>
+                <div style={{fontSize:11,color:'var(--text3)'}}>{t.track}</div>
+              </div>
+              <div style={{height:t.h,background:`linear-gradient(to top,${t.pos===1?'rgba(251,191,36,0.2)':t.pos===2?'rgba(148,163,184,0.15)':'rgba(251,146,60,0.15)'},transparent)`,border:`1px solid ${t.pos===1?'rgba(251,191,36,0.3)':t.pos===2?'rgba(148,163,184,0.25)':'rgba(251,146,60,0.25)'}`,borderRadius:'10px 10px 0 0',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:4}}>
+                <div style={{fontSize:t.pos===1?32:24}}>{medals[t.pos-1]||t.pos}</div>
+                <div style={{fontFamily:'var(--font-head)',fontSize:16,fontWeight:800}}>{t.score.toLocaleString()}</div>
+                <div style={{fontSize:10,color:'var(--text3)'}}>points</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Full Leaderboard */}
+        <div style={{display:'flex',gap:8,flexWrap:'wrap',marginBottom:24}}>
+          {['all','AI','Web3','HealthTech','GreenTech','FinTech','Social'].map(f=>(
+            <button key={f} onClick={()=>setFilter(f)} style={{padding:'6px 14px',borderRadius:999,background:filter===f?'rgba(124,58,237,0.2)':'var(--glass)',border:`1px solid ${filter===f?'var(--primary)':'var(--border)'}`,fontSize:12,fontWeight:600,color:filter===f?'var(--primary-light)':'var(--text2)',cursor:'pointer',transition:'all .2s'}}>
+              {f==='all'?'All Tracks':f}
+            </button>
+          ))}
+        </div>
+        <div style={{display:'flex',flexDirection:'column',gap:8}}>
+          {filtered.map((t,i)=>(
+            <div key={t.rank} className={`lb-row ${rankClass(i)}`} style={{animation:`fadeUp .4s ease ${i*.05}s both`}}>
+              <div style={{width:32,height:32,borderRadius:'50%',background:'var(--glass2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:i<3?18:13,fontWeight:700,flexShrink:0}}>
+                {i<3?medals[i]:t.rank}
+              </div>
+              <div style={{width:40,height:40,borderRadius:'50%',background:`linear-gradient(135deg,${['#7C3AED,#9F67FF','#F59E0B,#FBBF24','#10B981,#06B6D4','#F43F5E,#FB7185','#06B6D4,#38BDF8','#8B5CF6,#A78BFA','#EC4899,#F43F5E','#F97316,#FBBF24'][i%8]})`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,fontWeight:800,fontFamily:'var(--font-head)'}}>
+                {t.team[0]}
+              </div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:700,fontSize:14}}>{t.team}</div>
+                <div style={{fontSize:11,color:'var(--text3)'}}>{t.members} members · {t.track}</div>
+              </div>
+              <span className="tag" style={{fontSize:11}}>{t.track}</span>
+              <div style={{fontFamily:'var(--font-head)',fontSize:18,fontWeight:800,color:i===0?'#FBBF24':i===1?'#94A3B8':i===2?'#FB923C':'var(--text)'}}>{t.score.toLocaleString()}</div>
+            </div>
+          ))}
+        </div>
+        <div className="glass" style={{borderRadius:'var(--r)',padding:'14px 18px',marginTop:24,display:'flex',alignItems:'center',gap:10}}>
+          <div style={{width:8,height:8,borderRadius:'50%',background:'#10B981',animation:'pulse 1.5s ease-in-out infinite'}}/>
+          <span style={{fontSize:12,color:'var(--text2)'}}>Live · Updates every 30 minutes · Last updated: 2 mins ago</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// ─── PAGE: DASHBOARD ──────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+const DashboardPage = ({user,setUser,registrations,setRegistrations,wishlist,setWishlist,teams,setTeams,profile,setProfile,setPage}) => {
+  const notif = useNotif();
+  const [activePanel,setActivePanel] = useState('overview');
+  const [newTeam,setNewTeam] = useState({name:'',track:'',desc:''});
+  const [pf,setPf] = useState({...profile||{}});
+
+  if(!user) return (
+    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',paddingTop:80}}>
+      <div style={{textAlign:'center'}}>
+        <div style={{fontSize:64,marginBottom:16}}>🔒</div>
+        <h2 style={{fontFamily:'var(--font-head)',fontSize:28,fontWeight:800,marginBottom:12}}>Sign In Required</h2>
+        <p style={{color:'var(--text2)',marginBottom:24}}>Please sign in to access your dashboard.</p>
+        <button className="btn btn-primary" onClick={()=>setPage('home')}>Go Back Home</button>
+      </div>
+    </div>
+  );
+
+  const initials = ((user.fname?.[0]||'?')+(user.lname?.[0]||'')).toUpperCase();
+  const myRegs = registrations.filter(r=>r.email===user.email);
+  const myTeam = teams.find(t=>t.members?.includes(user.email));
+
+  const navItems = [
+    {id:'overview',icon:'🏠',label:'Overview'},
+    {id:'profile',icon:'👤',label:'My Profile'},
+    {id:'registrations',icon:'🎟️',label:'Registrations'},
+    {id:'wishlist',icon:'❤️',label:'Wishlist'},
+    {id:'teams',icon:'👥',label:'Team Builder'},
+    {id:'settings',icon:'⚙️',label:'Settings'},
+  ];
+
+  const saveProfile = () => {
+    setProfile(pf);
+    notif('Profile updated ✓','success');
+  };
+
+  const createTeam = () => {
+    if(!newTeam.name){notif('Enter a team name','warning');return;}
+    if(myTeam){notif('You\'re already in a team','warning');return;}
+    const team = {...newTeam,id:Date.now().toString(),leader:user.email,members:[user.email],created:new Date().toLocaleDateString()};
+    setTeams([...teams,team]);
+    setNewTeam({name:'',track:'',desc:''});
+    notif(`Team "${newTeam.name}" created! 🎉`,'success');
+  };
+
+  const joinTeam = id => {
+    if(myTeam){notif('Already in a team','warning');return;}
+    const updated = teams.map(t=>t.id===id?{...t,members:[...t.members,user.email]}:t);
+    setTeams(updated);
+    notif('Joined team! 🎉','success');
+  };
+
+  const removeWish = id => {
+    setWishlist(wishlist.filter(w=>w.id!==id));
+    notif('Removed from wishlist','info');
+  };
+
+  return (
+    <div style={{minHeight:'100vh',paddingTop:80}}>
+      {/* Header */}
+      <div style={{background:'var(--bg2)',borderBottom:'1px solid var(--border)',padding:'28px 0'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 24px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <div style={{display:'flex',alignItems:'center',gap:16}}>
+            <div style={{width:60,height:60,borderRadius:'50%',background:'linear-gradient(135deg,var(--primary),#F43F5E)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,fontWeight:800,fontFamily:'var(--font-head)'}}>{initials}</div>
+            <div>
+              <div style={{fontFamily:'var(--font-head)',fontSize:22,fontWeight:800}}>{user.fname} {user.lname||''}</div>
+              <div style={{fontSize:13,color:'var(--text2)'}}>{user.email}</div>
+            </div>
+            <span className="chip chip-green" style={{marginLeft:8}}>Active</span>
+          </div>
+          <div style={{display:'flex',gap:10}}>
+            <button className="btn btn-outline btn-sm" onClick={()=>setPage('home')}>← Back to Site</button>
+            <button className="btn btn-danger btn-sm" onClick={()=>{setUser(null);localStorage.removeItem('hn_user');setPage('home');notif('Logged out! 👋','info');}}>Logout</button>
+          </div>
+        </div>
+      </div>
+      <div style={{maxWidth:1200,margin:'0 auto',padding:'40px 24px',display:'grid',gridTemplateColumns:'220px 1fr',gap:28,alignItems:'start'}}>
+        {/* Sidebar */}
+        <div className="glass" style={{borderRadius:'var(--r2)',padding:'10px',overflow:'hidden',position:'sticky',top:'90px'}}>
+          {navItems.map(item=>(
+            <button key={item.id} className={`dash-nav-item ${activePanel===item.id?'active':''}`} onClick={()=>setActivePanel(item.id)}>
+              <span style={{fontSize:17,width:24,textAlign:'center'}}>{item.icon}</span>{item.label}
+            </button>
+          ))}
+        </div>
+        {/* Main */}
+        <div>
+          {/* OVERVIEW */}
+          {activePanel==='overview'&&(
+            <div className="dash-panel">
+              <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:14,marginBottom:24}}>
+                {[['🎟️','Registrations',myRegs.length,'var(--primary-light)'],['❤️','Wishlisted',wishlist.length,'#F43F5E'],['👥','Team Status',myTeam?'✓ Joined':'None','#06B6D4'],['📅','Days Left','111','#FBBF24']].map(([ic,l,v,c])=>(
+                  <div key={l} className="glass" style={{borderRadius:'var(--r)',padding:'18px',textAlign:'center'}}>
+                    <div style={{fontSize:22,marginBottom:6}}>{ic}</div>
+                    <div style={{fontFamily:'var(--font-head)',fontSize:28,fontWeight:800,color:c}}>{v}</div>
+                    <div style={{fontSize:11,color:'var(--text3)',marginTop:4}}>{l}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="glass" style={{borderRadius:'var(--r2)',padding:'24px',marginBottom:20}}>
+                <div style={{fontFamily:'var(--font-head)',fontSize:16,fontWeight:700,marginBottom:18,paddingBottom:14,borderBottom:'1px solid var(--border)'}}>🗓️ Upcoming Events</div>
+                {[['01 JUL','Registration Deadline','11:59 PM IST · Online','chip-orange','Upcoming'],['18 JUL','Hackathon Kickoff 🚀','9:00 AM IST · KTPO + Online','chip-blue','48H Event'],['20 JUL','Demo Day & Results','3:00 PM IST · KTPO Auditorium','chip-green','Grand Finale']].map(([d,e,s,chip,t])=>(
+                  <div key={e} style={{display:'flex',gap:12,alignItems:'center',padding:'12px',background:'var(--bg3)',borderRadius:'var(--r)',marginBottom:10}}>
+                    <div style={{textAlign:'center',background:'rgba(124,58,237,0.15)',borderRadius:8,padding:'6px 10px',minWidth:52,flexShrink:0}}>
+                      <div style={{fontFamily:'var(--font-head)',fontSize:16,fontWeight:800,color:'var(--primary-light)'}}>{d.split(' ')[0]}</div>
+                      <div style={{fontSize:9,color:'var(--text3)',fontWeight:700}}>{d.split(' ')[1]}</div>
+                    </div>
+                    <div style={{flex:1}}>
+                      <div style={{fontWeight:600,fontSize:13}}>{e}</div>
+                      <div style={{fontSize:11,color:'var(--text3)',marginTop:3}}>{s}</div>
+                    </div>
+                    <span className={`chip ${chip}`}>{t}</span>
+                  </div>
+                ))}
+              </div>
+              {myTeam&&(
+                <div className="glass" style={{borderRadius:'var(--r2)',padding:'24px'}}>
+                  <div style={{fontFamily:'var(--font-head)',fontSize:16,fontWeight:700,marginBottom:14}}>👥 Your Team: {myTeam.name}</div>
+                  <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+                    {myTeam.members.map(m=>(
+                      <div key={m} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 12px',background:'var(--bg3)',borderRadius:'var(--r)',fontSize:13}}>
+                        <div style={{width:28,height:28,borderRadius:'50%',background:'linear-gradient(135deg,var(--primary),var(--accent2))',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:700}}>{m[0].toUpperCase()}</div>
+                        <span>{m}</span>
+                        {m===myTeam.leader&&<span style={{fontSize:10,background:'rgba(251,191,36,0.2)',color:'#FBBF24',padding:'2px 6px',borderRadius:4,fontWeight:700}}>Leader</span>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {/* PROFILE */}
+          {activePanel==='profile'&&(
+            <div className="dash-panel">
+              <div className="glass" style={{borderRadius:'var(--r2)',padding:'28px'}}>
+                <div style={{fontFamily:'var(--font-head)',fontSize:18,fontWeight:700,marginBottom:20,paddingBottom:14,borderBottom:'1px solid var(--border)'}}>👤 Profile Information</div>
+                <div style={{display:'flex',alignItems:'center',gap:16,marginBottom:28}}>
+                  <div style={{width:72,height:72,borderRadius:'50%',background:'linear-gradient(135deg,var(--primary),#F43F5E)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:28,fontWeight:800,fontFamily:'var(--font-head)'}}>{initials}</div>
+                  <div>
+                    <div style={{fontFamily:'var(--font-head)',fontSize:18,fontWeight:700}}>{user.fname} {user.lname||''}</div>
+                    <div style={{fontSize:13,color:'var(--text2)'}}>{user.email}</div>
+                  </div>
+                </div>
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:16}}>
+                  {[['First Name','fname','text','First Name'],['Last Name','lname','text','Last Name'],['Email','email','email',user.email,true],['Phone','phone','tel','10-digit number'],['GitHub','github','text','github.com/username'],['LinkedIn','linkedin','text','linkedin.com/in/username']].map(([l,k,t,pl,ro])=>(
+                    <div key={k}>
+                      <label className="label">{l}</label>
+                      <input className="input" type={t} value={pf[k]||''} onChange={e=>setPf(p=>({...p,[k]:e.target.value}))} placeholder={pl} readOnly={ro} style={ro?{opacity:.6,cursor:'not-allowed'}:{}}/>
+                    </div>
+                  ))}
+                </div>
+                <div style={{marginBottom:16}}>
+                  <label className="label">Bio</label>
+                  <textarea className="input" value={pf.bio||''} onChange={e=>setPf(p=>({...p,bio:e.target.value}))} rows={3} placeholder="Tell us about yourself..." style={{resize:'vertical'}}/>
+                </div>
+                <button className="btn btn-primary btn-sm" onClick={saveProfile}>Save Changes</button>
+              </div>
+            </div>
+          )}
+          {/* REGISTRATIONS */}
+          {activePanel==='registrations'&&(
+            <div className="dash-panel">
+              <div className="glass" style={{borderRadius:'var(--r2)',padding:'28px'}}>
+                <div style={{fontFamily:'var(--font-head)',fontSize:18,fontWeight:700,marginBottom:20,paddingBottom:14,borderBottom:'1px solid var(--border)'}}>🎟️ My Registrations</div>
+                {myRegs.length===0?(
+                  <div style={{textAlign:'center',padding:'48px 0',color:'var(--text3)'}}>
+                    <div style={{fontSize:48,marginBottom:12}}>🎟️</div>
+                    <p style={{marginBottom:16}}>No registrations yet.</p>
+                    <button className="btn btn-primary btn-sm" onClick={()=>setPage('register')}>Register for HackNova →</button>
+                  </div>
+                ):myRegs.map(r=>(
+                  <div key={r.id} style={{background:'var(--bg3)',borderRadius:'var(--r)',padding:'16px 20px',marginBottom:12,display:'flex',gap:12,alignItems:'center',flexWrap:'wrap'}}>
+                    <div style={{flex:1}}>
+                      <div style={{fontWeight:700,fontSize:15}}>{r.fname} {r.lname}</div>
+                      <div style={{fontSize:13,color:'var(--text2)',marginTop:4}}>Team: {r.team} · Track: {r.track||'General'}</div>
+                      <div style={{fontSize:11,color:'var(--text3)',marginTop:2}}>Registered: {r.date} · Mode: {r.mode}</div>
+                    </div>
+                    <span className="chip chip-green">Confirmed ✓</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {/* WISHLIST */}
+          {activePanel==='wishlist'&&(
+            <div className="dash-panel">
+              <div className="glass" style={{borderRadius:'var(--r2)',padding:'28px'}}>
+                <div style={{fontFamily:'var(--font-head)',fontSize:18,fontWeight:700,marginBottom:20,paddingBottom:14,borderBottom:'1px solid var(--border)'}}>❤️ Wishlisted Tracks</div>
+                {wishlist.length===0?(
+                  <div style={{textAlign:'center',padding:'48px 0',color:'var(--text3)'}}>
+                    <div style={{fontSize:48,marginBottom:12}}>🤍</div>
+                    <p>No wishlisted tracks yet. Browse tracks and tap the heart.</p>
+                  </div>
+                ):(
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+                    {wishlist.map(item=>{
+                      const t = TRACKS.find(t=>t.id===item.id);
+                      return (
+                        <div key={item.id} style={{background:'var(--glass)',border:'1px solid var(--border)',borderRadius:'var(--r)',padding:'14px 16px',display:'flex',alignItems:'center',gap:12}}>
+                          <span style={{fontSize:26,width:36,textAlign:'center'}}>{t?.icon||'🎯'}</span>
+                          <div style={{flex:1}}>
+                            <div style={{fontSize:13,fontWeight:600}}>{item.name}</div>
+                            <div style={{fontSize:11,color:'var(--text3)',textTransform:'capitalize'}}>{item.cat}</div>
+                          </div>
+                          <button onClick={()=>removeWish(item.id)} style={{background:'none',border:'none',color:'var(--text3)',fontSize:16,cursor:'pointer',padding:'0 4px'}} onMouseEnter={e=>e.target.style.color='#F43F5E'} onMouseLeave={e=>e.target.style.color='var(--text3)'}>✕</button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          {/* TEAMS */}
+          {activePanel==='teams'&&(
+            <div className="dash-panel">
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
+                <div className="glass" style={{borderRadius:'var(--r2)',padding:'24px'}}>
+                  <div style={{fontFamily:'var(--font-head)',fontSize:16,fontWeight:700,marginBottom:18}}>Create a Team +</div>
+                  <div style={{marginBottom:14}}><label className="label">Team Name</label><input className="input" value={newTeam.name} onChange={e=>setNewTeam(p=>({...p,name:e.target.value}))} placeholder="e.g. CodeCrusaders"/></div>
+                  <div style={{marginBottom:14}}><label className="label">Track</label>
+                    <select className="input" value={newTeam.track} onChange={e=>setNewTeam(p=>({...p,track:e.target.value}))}>
+                      <option value="">Select Track</option>
+                      {TRACKS.map(t=><option key={t.id} value={t.name}>{t.name}</option>)}
+                    </select>
+                  </div>
+                  <div style={{marginBottom:20}}><label className="label">Description</label><textarea className="input" value={newTeam.desc} onChange={e=>setNewTeam(p=>({...p,desc:e.target.value}))} rows={3} placeholder="What are you building?" style={{resize:'vertical'}}/></div>
+                  <button className="btn btn-primary" style={{width:'100%',justifyContent:'center'}} onClick={createTeam}>Create Team 🚀</button>
+                </div>
+                <div>
+                  <div style={{fontFamily:'var(--font-head)',fontSize:16,fontWeight:700,marginBottom:14}}>Open Teams</div>
+                  {teams.length===0?(
+                    <div style={{textAlign:'center',padding:'40px 0',color:'var(--text3)',fontSize:13}}>
+                      <div style={{fontSize:40,marginBottom:10}}>👥</div>
+                      No teams yet. Be the first!
+                    </div>
+                  ):(
+                    <div style={{display:'flex',flexDirection:'column',gap:12}}>
+                      {teams.map(t=>(
+                        <div key={t.id} className="glass" style={{borderRadius:'var(--r)',padding:'16px'}}>
+                          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:10}}>
+                            <div style={{fontFamily:'var(--font-head)',fontSize:14,fontWeight:700}}>{t.name}</div>
+                            <span className="tag" style={{fontSize:11}}>{t.track||'General'}</span>
+                          </div>
+                          {t.desc&&<div style={{fontSize:12,color:'var(--text2)',marginBottom:10}}>{t.desc}</div>}
+                          <div style={{fontSize:11,color:'var(--text3)',marginBottom:10}}>{t.members.length}/5 members</div>
+                          {t.members.length<5&&!t.members.includes(user.email)?(
+                            <button className="btn btn-outline btn-xs" style={{width:'100%',justifyContent:'center'}} onClick={()=>joinTeam(t.id)}>Join Team →</button>
+                          ):t.members.includes(user.email)?(
+                            <span className="chip chip-green">You're in this team</span>
+                          ):<span className="chip chip-orange">Team Full</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+          {/* SETTINGS */}
+          {activePanel==='settings'&&(
+            <div className="dash-panel">
+              <div className="glass" style={{borderRadius:'var(--r2)',padding:'28px'}}>
+                <div style={{fontFamily:'var(--font-head)',fontSize:18,fontWeight:700,marginBottom:20,paddingBottom:14,borderBottom:'1px solid var(--border)'}}>⚙️ Settings</div>
+                <div style={{display:'flex',flexDirection:'column',gap:16}}>
+                  {[['🔔','Email Notifications','Receive updates about HackNova via email',true],['📱','SMS Alerts','Get SMS reminders for important deadlines',false],['🌙','Dark Mode','Always on',true],['🌐','Public Profile','Make your profile visible to other hackers',true]].map(([ic,t,s,def])=>{
+                    const [on,setOn] = useState(def);
+                    return (
+                      <div key={t} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'16px',background:'var(--glass)',border:'1px solid var(--border)',borderRadius:'var(--r)'}}>
+                        <div style={{display:'flex',gap:12,alignItems:'center'}}>
+                          <span style={{fontSize:20}}>{ic}</span>
+                          <div><div style={{fontSize:14,fontWeight:600}}>{t}</div><div style={{fontSize:12,color:'var(--text3)'}}>{s}</div></div>
+                        </div>
+                        <button onClick={()=>setOn(!on)} style={{width:48,height:26,borderRadius:999,background:on?'var(--primary)':'var(--bg4)',border:'none',position:'relative',cursor:'pointer',transition:'background .2s'}}>
+                          <div style={{width:20,height:20,borderRadius:'50%',background:'white',position:'absolute',top:3,left:on?25:3,transition:'left .2s'}}/>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div style={{marginTop:24,paddingTop:20,borderTop:'1px solid var(--border)'}}>
+                  <button className="btn btn-danger btn-sm" onClick={()=>{setUser(null);localStorage.removeItem('hn_user');setPage('home');notif('Account logged out','info');}}>Delete Account</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════
+// ─── APP ROOT ─────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+const App = () => {
+  const [page,setPage] = useState('home');
+  const [authOpen,setAuthOpen] = useState(false);
+  const store = useStore();
+
+  const handleLogin = u => {
+    store.setUser(u);
+    const savedProfile = JSON.parse(localStorage.getItem('hn_profile')||'null');
+    if(savedProfile) store.setProfile(savedProfile);
+  };
+  const handleLogout = () => { store.setUser(null); localStorage.removeItem('hn_user'); };
+
+  const commonProps = {
+    user:store.user, wishlist:store.wishlist, setWishlist:store.setWishlist,
+    teams:store.teams, setTeams:store.setTeams,
+    registrations:store.registrations, setRegistrations:store.setRegistrations,
+    onOpenAuth:()=>setAuthOpen(true), setPage
+  };
+
+  return (
+    <NotifProvider>
+      <Navbar page={page} setPage={setPage} user={store.user} onLogout={handleLogout} onOpenAuth={()=>setAuthOpen(true)}/>
+      <div style={{paddingTop:page==='home'?0:0}}>
+        {page==='home'&&<HomePage {...commonProps}/>}
+        {page==='register'&&<RegisterPage registrations={store.registrations} setRegistrations={store.setRegistrations} setPage={setPage}/>}
+        {page==='tracks'&&<TracksPage {...commonProps}/>}
+        {page==='schedule'&&<SchedulePage/>}
+        {page==='mentors'&&<MentorsPage/>}
+        {page==='leaderboard'&&<LeaderboardPage/>}
+        {page==='dashboard'&&<DashboardPage {...commonProps} profile={store.profile} setProfile={store.setProfile} setUser={store.setUser}/>}
+      </div>
+      {authOpen&&<AuthModal onClose={()=>setAuthOpen(false)} onLogin={handleLogin} setPage={setPage}/>}
+    </NotifProvider>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
